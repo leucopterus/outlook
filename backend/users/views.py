@@ -1,8 +1,7 @@
-# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.mixins import (CreateModelMixin,
-                                   UpdateModelMixin,
-                                   RetrieveModelMixin,
-                                   ListModelMixin)
+from rest_framework.mixins import (
+    UpdateModelMixin,
+    RetrieveModelMixin,
+    ListModelMixin)
 from rest_framework.viewsets import GenericViewSet
 
 from users.models import User
@@ -17,5 +16,5 @@ class UserViewSet(UpdateModelMixin,
     lookup_field = 'username'
 
     def get_queryset(self):
-        # return User.objects.all() if self.request.user.is_authenticated else User.objects.all()[:0]
-        return User.objects.all()
+        return User.objects.all() if self.request.user.is_authenticated else User.objects.all()[:0]
+        # return User.objects.all()

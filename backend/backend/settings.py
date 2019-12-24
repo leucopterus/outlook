@@ -165,5 +165,13 @@ LOGIN_URL = "/login/"
 
 AUTH_USER_MODEL = "users.User"
 # LOGIN_REDIRECT_URL = "/users/account/"
+# REST PART FOR AUTHENTICATION
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+
+AUTHENTICATION_BACKENDS = (
+   "django.contrib.auth.backends.ModelBackend",
+   "allauth.account.auth_backends.AuthenticationBackend"
+)
