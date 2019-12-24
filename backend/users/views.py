@@ -16,5 +16,5 @@ class UserViewSet(UpdateModelMixin,
     lookup_field = 'username'
 
     def get_queryset(self):
-        return User.objects.all() if self.request.user.is_authenticated else User.objects.none()
-        # return User.objects.all()
+        # return User.objects.all() if self.request.user.is_authenticated else User.objects.none()
+        return User.objects.all()
