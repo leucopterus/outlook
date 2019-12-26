@@ -29,7 +29,6 @@ import { EventsComponent } from './events/events.component';
       LogoutComponent,
       DayComponent,
       EventsComponent,
-      EventsComponent
    ],
    imports: [
       BrowserModule,

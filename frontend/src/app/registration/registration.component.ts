@@ -10,8 +10,8 @@ export class RegistrationComponent {
   profileForm = new FormGroup({
     username: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
+    first_name: new FormControl('', Validators.required),
+    last_name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
 

@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
   {path: 'users', component: UsersComponent},
-  {path: 'users/:id', component: UserComponent},
+  {path: 'users/user', component: UserComponent},
   {path: 'calendar', component: CalendarComponent},
   {path: 'calendar/day/:id', component: DayComponent},
   {path: 'events/', component: EventsComponent},
