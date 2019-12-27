@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RegistrationService } from './registration.service';
+import { Observable } from 'rxjs';
+import { User } from './../user';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
+  providers: [RegistrationService],
 })
-export class RegistrationComponent {
-  createUserUrl = '';
+export class RegistrationComponent implements OnInit {
 
   profileForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -17,9 +20,17 @@ export class RegistrationComponent {
     password: new FormControl('', Validators.required),
   });
 
+  constructor(private http: RegistrationService) {}
+
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.log(this.profileForm.value);
-    
+    // this.createUser(this.profileForm.value);
   }
+
+  // createUser(user: User): Observable<User> {
+    // return this.http.registerUser(user).subscribe(user);
+  // }
+
+  ngOnInit() {}
 }

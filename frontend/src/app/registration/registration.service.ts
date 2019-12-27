@@ -6,12 +6,12 @@ import { User } from './../user';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  readonly userListUrl = 'http://0.0.0.0:8000/users';
+export class RegistrationService {
+  readonly registerUrl = 'http://0.0.0.0:8000/api/registration';
 
   constructor(private http: HttpClient) { }
 
-  getUserList(): Observable<User[]> {
-    return this.http.get<User[]>(this.userListUrl);
+  registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.registerUrl, user);
   }
 }
