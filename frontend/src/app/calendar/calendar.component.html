@@ -17,7 +17,7 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <li *ngFor="let day of days" (click)="selectDate(day)">{{ day | date:'dd'}}</li>
+      <li *ngFor="let day of days" (click)="selectDate(day)" [className]="(day === selectedDate) ? 'active': ''">{{ day | date:'dd'}}</li>
       <!-- <li><span class="active">10</span></li> -->
     </ul>  
   </div>
