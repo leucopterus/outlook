@@ -10,13 +10,14 @@ export class CalendarComponent implements OnInit {
   currentDate: Date = new Date();
   month: string;
   year: number;
-  days: number[] = [];
+  days: Date[] = [];
+  selectedDate: Date;
 
   constructor() { }
 
   ngOnInit() {
-    let firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-    let lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+    const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+    const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
 
     while (firstDay.getDay() !== 1) {
       firstDay.setDate(firstDay.getDate() - 1);
@@ -29,8 +30,9 @@ export class CalendarComponent implements OnInit {
     this.month = this.currentDate.toLocaleDateString('default', {month: 'long'});
     this.year = this.currentDate.getFullYear();
 
-    for (let day: Date = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
-      this.days.push(day.getDate());
+    for (const day: Date = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
+      const dayInCalendar = new Date(day);
+      this.days.push(dayInCalendar);
     }
   }
 
@@ -44,6 +46,10 @@ export class CalendarComponent implements OnInit {
     this.currentDate.setMonth(this.currentDate.getMonth() - 1);
     this.days.length = 0;
     this.ngOnInit();
+  }
+
+  selectDate(day: Date): void {
+    this.selectedDate = day;
   }
 
 }

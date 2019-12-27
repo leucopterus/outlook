@@ -1,6 +1,12 @@
 ul {list-style-type: none;}
 body {font-family: Verdana, sans-serif;}
 
+.calendar-flex-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 /* style for calendar container */
 .calendar-container{
     margin-top: 4px;
@@ -8,6 +14,15 @@ body {font-family: Verdana, sans-serif;}
     text-align: left;
     width: 40%;
     min-width: 320px;
+}
+
+.day-container {
+  margin-left: 4px;
+  margin-top: 4px;
+  position: relative;
+  text-align: left;
+  width: 40%;
+  min-width: 320px;
 }
 
 /* Month header */
