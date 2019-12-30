@@ -10,11 +10,11 @@ import { User } from './../user';
   providers: [UserService],
 })
 export class UsersComponent implements OnInit {
-  usersList: User[] = [];
+  userList: User[] = [];
 
   constructor(private http: UserService) {}
 
   ngOnInit() {
-    return this.http.getUserList().subscribe((data: any[]) => this.usersList = data);
+    return this.http.getUserList().subscribe((data: User[]) => this.userList = data);
   }
 }

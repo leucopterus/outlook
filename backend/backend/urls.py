@@ -20,8 +20,10 @@ from rest_auth.views import LogoutView, LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('registration/', RegisterView.as_view()),
-    path('login/', LoginView.as_view()),
-    path('logout/', LogoutView.as_view()),
+    path('api/', include([
+        path('users/', include('users.urls')),
+        path('registration/', RegisterView.as_view()),
+        path('login/', LoginView.as_view()),
+        path('logout/', LogoutView.as_view()),
+    ])),
 ]
