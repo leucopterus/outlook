@@ -1,0 +1,26 @@
+[
+    {
+        "username": "admin",
+        "email": "admin@test.tt",
+        "id": "8b0c938a-3169-4b3c-92b3-1c0f3db71333",
+        "first_name": "Semen",
+        "last_name": "Semenov",
+        "image": null
+    },
+    {
+        "username": "tester",
+        "email": "tester@test.tt",
+        "id": "91515cc2-55e2-486e-b03d-5221a8da399a",
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "image": null
+    },
+    {
+        "username": "tester2",
+        "email": "tester2@test.tt",
+        "id": "915e5cf2-55e2-dddd-b03d-5221a8da0000",
+        "first_name": "Alexey",
+        "last_name": "Alexeev",
+        "image": null
+    }
+]

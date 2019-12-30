@@ -1,0 +1,36 @@
+<h2>Registration</h2>
+<p>Please, fill the next form out</p>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <p>
+    <label>
+      Username:
+      <input type="text" formControlName="username">
+    </label>
+  </p>
+  <p>
+    <label>
+      Email:
+      <input type="email" formControlName="email">
+    </label>
+  </p>
+  <p>
+    <label>
+      First Name:
+      <input type="text" formControlName="first_name">
+    </label>
+  </p>
+  <p>
+    <label>
+      Last Name:
+      <input type="text" formControlName="last_name">
+    </label>
+  </p>
+  <p>
+    <label>
+      Password:
+      <input type="password" formControlName="password">
+    </label>
+  </p>
+  <!-- <button type="submit">Submit</button> -->
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+</form>
