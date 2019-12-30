@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegistrationService } from './registration.service';
 import { Observable } from 'rxjs';
 import { User } from './../user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -20,17 +21,18 @@ export class RegistrationComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private http: RegistrationService) {}
+  constructor(private http: RegistrationService,
+              private router: Router) {}
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.log(this.profileForm.value);
-    // this.createUser(this.profileForm.value);
+    // console.log(this.profileForm.value);
+    this.createUser(this.profileForm.value);
   }
 
-  // createUser(user: User): Observable<User> {
-    // return this.http.registerUser(user).subscribe(user);
-  // }
+  createUser(user: User) {
+    this.http.registerUser(user).subscribe();
+    this.router.navigate(['']);
+  }
 
   ngOnInit() {}
 }

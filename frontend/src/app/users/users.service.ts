@@ -7,7 +7,7 @@ import { User } from './../user';
   providedIn: 'root'
 })
 export class UserService {
-  readonly userListUrl = 'http://0.0.0.0:8000/users';
+  readonly userListUrl = 'http://0.0.0.0:8000/api/users';
 
   constructor(private http: HttpClient) { }
 
