@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include([
         path('users/', include('users.urls')),
+        path('events/', include('events.urls')),
         path('registration/', RegisterView.as_view()),
         path('login/', LoginView.as_view()),
         path('logout/', LogoutView.as_view()),

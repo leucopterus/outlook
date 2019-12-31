@@ -1,13 +1,16 @@
 from rest_framework import serializers
 
 from users.models import User
+from events.serializers import ShortEventSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
+    subscriptions = ShortEventSerializer(many=True)
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'id',
-                  'first_name', 'last_name', 'image']
+                  'first_name', 'last_name', 'image', 'subscriptions']
         extra_kwargs = {
             'password': {'write_only': True},
             'id': {'read_only': True},
