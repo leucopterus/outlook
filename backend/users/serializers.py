@@ -5,7 +5,7 @@ from events.serializers import ShortEventSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
-    subscriptions = ShortEventSerializer(many=True)
+    subscriptions = ShortEventSerializer(many=True, required=False)
 
     class Meta:
         model = User

@@ -2,10 +2,20 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django_filters import rest_framework as filters
 
 from events.models import Event
 from events.serializers import EventSerializer
 from users.models import User
+
+
+class CurrentDateEventFilter(filters.FilterSet):
+    class Meta:
+        model = Event
+        fields = {
+            'start': ['lte'],
+            'finish': ['gte'],
+        }
 
 
 class EventViewSet(ModelViewSet):
@@ -15,6 +25,8 @@ class EventViewSet(ModelViewSet):
     action_permissions = {
         IsAuthenticated: ['create', 'retrieve', 'list', 'partial_update'],
     }
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = CurrentDateEventFilter
 
     def get_queryset(self):
         return User.objects.get(id=self.request.user.id).subscriptions if self.request.user.is_authenticated else Event.objects.none()
