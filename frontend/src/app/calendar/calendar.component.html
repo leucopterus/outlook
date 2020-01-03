@@ -17,11 +17,12 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <li *ngFor="let day of days" (click)="selectDate(day)" [className]="(day === selectedDate) ? 'active': ''">{{ day | date:'dd'}}</li>
+      <li *ngFor="let day of days" (click)="selectDate(day)" [className]="(day === selectedDate) ? 'active': ''" 
+          routerLink="/calendar/{{day.getFullYear()}}/{{day.getMonth()+1}}/{{day.getDate()}}">{{ day | date:'dd'}}</li>
       <!-- <li><span class="active">10</span></li> -->
     </ul>  
   </div>
-  <div class="day-container">
+  <div class="day-container" *ngIf="selectedDate">
     <app-day [day]="selectedDate"></app-day>
   </div>
 </div>

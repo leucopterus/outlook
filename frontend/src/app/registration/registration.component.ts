@@ -34,5 +34,9 @@ export class RegistrationComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['calendar']);
+    }
+  }
 }

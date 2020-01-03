@@ -13,16 +13,18 @@ import { EventComponent } from './event/event.component';
 import { EventsComponent } from './events/events.component';
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
-  {path: 'users', component: UsersComponent},
   {path: 'users/user', component: UserComponent},
-  {path: 'calendar', component: CalendarComponent},
-  {path: 'calendar/day/:id', component: DayComponent},
-  {path: 'events/', component: EventsComponent},
+  {path: 'users', component: UsersComponent},
+  {path: 'calendar', component: CalendarComponent, children: [
+    {path: ':yyyy/:mm/:dd', component: DayComponent},
+  ]},
   {path: 'events/:id', component: EventComponent},
+  {path: 'events/', component: EventsComponent},
+  {path: '', component: WelcomeComponent},
+  {path: '**', redirectTo: '', pathMatch: 'full'},
 ];
 
 @NgModule({

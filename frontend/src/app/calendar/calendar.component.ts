@@ -49,6 +49,7 @@ export class CalendarComponent implements OnInit {
   }
 
   selectDate(day: Date): void {
+    day.setHours(0, 0, 0, 0);
     this.selectedDate = day;
   }
 

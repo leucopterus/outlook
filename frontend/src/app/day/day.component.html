@@ -1,3 +1,17 @@
-<h3>
-  {{ day |  date:'yyyy-MM-dd' }}
-</h3>
+<div *ngIf="day">
+  <h3>
+    {{ day |  date:'yyyy-MM-dd' }}
+  </h3>
+  <div *ngFor="let event of eventList">
+    <div>
+      <p>Event Id: {{event?.id}}</p>
+      <p>Event title: {{event?.title}}</p>
+      <p>Event start: {{event?.start}}</p>
+      <p>Event finish: {{event?.finish}}</p>
+      <p>Event organizer: {{event?.created_by}}</p>
+      <p>Event participants: {{event?.participants}}</p>
+      <p>Event regularity: {{event?.regularity}}</p>
+    </div>
+    <hr>
+  </div>
+</div>
