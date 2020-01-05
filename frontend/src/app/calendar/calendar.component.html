@@ -18,7 +18,7 @@
     </ul>
     <ul class="days">
       <li *ngFor="let day of days" (click)="selectDate(day)" [className]="(day === selectedDate) ? 'active': ''" 
-          routerLink="/calendar/{{day.getFullYear()}}/{{day.getMonth()+1}}/{{day.getDate()}}">{{ day | date:'dd'}}</li>
+          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</li>
       <!-- <li><span class="active">10</span></li> -->
     </ul>  
   </div>

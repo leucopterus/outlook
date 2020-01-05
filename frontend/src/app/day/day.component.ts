@@ -1,6 +1,8 @@
 import { Event } from '../event';
 import { DayInfoService } from './dayInfo.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-day',
@@ -13,9 +15,12 @@ export class DayComponent implements OnInit {
   @Input() day: Date;
   dayStart: Date;
 
-  constructor(private http: DayInfoService) { }
+  constructor(private http: DayInfoService, private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit() {
+    const day = this.route.snapshot.paramMap.get('yyyy');
+    console.log(day);
     this.dayStart = new Date(this.day.toJSON());
     this.dayStart.setHours(23, 59, 59, 999);
     this.http.HttpOptions.params = this.http.HttpOptions.params.set('start__lte', `${this.dayStart.toJSON()}`);
