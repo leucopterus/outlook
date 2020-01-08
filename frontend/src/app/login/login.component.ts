@@ -1,5 +1,5 @@
 import { LoginService } from './login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.http.loginUser(this.loginForm.value).subscribe(data => {
-      this.router.navigate(['calendar']);
       console.log(data);
       localStorage.setItem('token', data.key);
+      this.router.navigate(['']);
     });
   }
 

@@ -15,6 +15,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LogoutComponent } from './logout/logout.component';
 import { DayComponent } from './day/day.component';
 import { EventsComponent } from './events/events.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
    declarations: [
@@ -29,12 +30,13 @@ import { EventsComponent } from './events/events.component';
       LogoutComponent,
       DayComponent,
       EventsComponent,
+      HeaderComponent
    ],
    imports: [
       BrowserModule,
       ReactiveFormsModule,
       AppRoutingModule,
-      HttpClientModule,
+      HttpClientModule
    ],
    providers: [],
    bootstrap: [

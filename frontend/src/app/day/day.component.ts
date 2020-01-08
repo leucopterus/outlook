@@ -1,8 +1,7 @@
 import { Event } from '../event';
 import { DayInfoService } from './dayInfo.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-day',
@@ -12,25 +11,24 @@ import { switchMap } from 'rxjs/operators';
 })
 export class DayComponent implements OnInit {
   eventList: Event[] = [];
-  // @Input() day: Date;
   day: Date;
   dayStart: Date;
+
   public yearFromUrl: number;
   public monthFromUrl: number;
   public dayFromUrl: number;
-  public sub: any;
 
-  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute,
-              private router: Router) {}
+  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.sub = this.activatedRoute.paramMap.subscribe(params => {
+    this.activatedRoute.paramMap.subscribe(params => {
       // console.log(params);
       this.yearFromUrl = +params.get('yyyy');
       this.monthFromUrl = +params.get('mm');
       this.dayFromUrl = +params.get('dd');
       // console.log(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
       this.day = new Date(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
+      console.log(this.day);
       this.dayStart = new Date(this.day.toJSON());
       this.dayStart.setHours(23, 59, 59, 999);
       // console.log(this.dayStart, this.day);

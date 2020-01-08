@@ -1,0 +1,12 @@
+<nav *ngIf="!headerService.getToken()">
+  <a routerLink="">Main</a>
+  <a routerLink="/register">Register</a>
+  <a routerLink="/login">Log In</a>
+</nav>
+<nav *ngIf="headerService.getToken()">
+  <a routerLink="">Main</a>
+  <a routerLink="/logout">Log Out</a>
+  <a routerLink="/users">User List</a>
+  <a routerLink="/calendar">Calendar</a>
+  <!-- <a routerLink="/users/userId">Home</a> -->
+</nav>
