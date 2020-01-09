@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   providers: [HeaderService],
 })
 export class HeaderComponent implements OnInit {
+  currentDate = new Date();
 
   constructor(private headerService: HeaderService) { }
 

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,31 +16,37 @@ export class CalendarComponent implements OnInit {
   public day: number;
   public days: Date[] = [];
 
-  constructor() {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
+    this.activatedRoute.url.subscribe(url => console.log('Data:' + url));
+    // ?
+    console.log('YYYY from url: ' + this.activatedRoute.snapshot.paramMap.get('yyyy'));
     this.currentDate = new Date();
+    this.currentDate.setHours(0, 0, 0, 0);
+    console.log(this.currentDate);
     this.selectDate(this.currentDate);
 
     this.renderMonth(this.currentDate);
   }
 
   nextMonth() {
-    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+    this.selectedDate.setMonth(this.selectedDate.getMonth() + 1);
     this.days.length = 0;
-    this.renderMonth(this.currentDate);
+    this.renderMonth(this.selectedDate);
+    // console.log('current date:' + this.currentDate);
   }
 
   previousMonth() {
-    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+    this.selectedDate.setMonth(this.selectedDate.getMonth() - 1);
     this.days.length = 0;
-    this.renderMonth(this.currentDate);
+    this.renderMonth(this.selectedDate);
+    // console.log('current date:' + this.currentDate);
   }
 
   selectDate(day: Date): void {
-    day.setHours(0, 0, 0, 0);
-    this.selectedDate = day;
-    // console.log(this.selectedDate);
+    this.selectedDate = new Date(day);
+    console.log(this.selectedDate);
   }
 
   renderMonth(day: Date): void {
@@ -55,8 +62,8 @@ export class CalendarComponent implements OnInit {
       lastDay.setDate(lastDay.getDate() + 1);
     }
 
-    this.month = this.currentDate.toLocaleDateString('default', {month: 'long'});
-    this.year = this.currentDate.getFullYear();
+    this.month = this.selectedDate.toLocaleDateString('default', {month: 'long'});
+    this.year = this.selectedDate.getFullYear();
 
     for (const dayCycle: Date = firstDay; dayCycle <= lastDay; dayCycle.setDate(dayCycle.getDate() + 1)) {
       const dayInCalendar = new Date(dayCycle);

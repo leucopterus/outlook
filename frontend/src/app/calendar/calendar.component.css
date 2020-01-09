@@ -88,9 +88,16 @@ body {font-family: Verdana, sans-serif;}
   color: #777;
 }
 
-/* Highlight the "current" day */
-.active {
+/* Highlight the "selected" day */
+li.active {
   padding: 5px;
   background: #1abc9c;
+  color: white !important
+}
+
+/* Highlight the "current" day */
+.current {
+  padding: 5px;
+  background: rgb(151, 26, 26);
   color: white !important
 }

@@ -17,7 +17,7 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <li *ngFor="let day of days" (click)="selectDate(day)" [routerLinkActive]="'active'"
+      <li *ngFor="let day of days" (click)="selectDate(day)" [ngClass]="{'current': day.toString() === currentDate.toString()}" [routerLinkActive]="'active'"
           [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate(), day]">{{ day | date:'dd'}}</li>
     </ul>  
   </div>
