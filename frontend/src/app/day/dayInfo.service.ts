@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Event } from 'src/app/event';
@@ -8,6 +9,12 @@ import { Event } from 'src/app/event';
 })
 export class DayInfoService {
   readonly dayEventListUrl = 'http://0.0.0.0:8000/api/events/';
+  // observable + behaviorsubject
+  sharingDataValue: Date;
+  private sharingData: BehaviorSubject<Date> = new BehaviorSubject<Date>(this.sharingDataValue);
+
+  sharingData$: Observable<Date> = this.sharingData.asObservable();
+  //
 
   HttpOptions = {
     params: new HttpParams({}),
@@ -17,9 +24,27 @@ export class DayInfoService {
     }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private activatedRoute: ActivatedRoute) { }
 
   getDaySchedule(): Observable<Event[]> {
     return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
   }
+
+  // observable + behavioursubject
+  setData(date: Date): void {
+    this.sharingDataValue = new Date(date);
+    // console.log('Set ' + this.sharingDataValue);
+    this.sharingData.next(this.sharingDataValue);
+  }
+
+  getData(data?: Date): void {
+    if (data) {
+      this.sharingDataValue = new Date(data);
+    }
+    if (!this.sharingDataValue) {
+      this.sharingDataValue = new Date();
+    }
+    // console.warn('Data: ' + this.sharingDataValue);
+  }
+
 }

@@ -1,33 +1,46 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { DayInfoService } from './../day/dayInfo.service';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
+  providers: [DayInfoService],
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
 
   public currentDate: Date;
   public selectedDate: Date;
+  public fromUrlDate: Date;
+
+  sharingData: Date;
+  subscription: Subscription;
 
   public month: string;
   public year: number;
   public day: number;
   public days: Date[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private http: DayInfoService) {}
 
   ngOnInit() {
-    this.activatedRoute.url.subscribe(url => console.log('Data:' + url));
-    // ?
-    console.log('YYYY from url: ' + this.activatedRoute.snapshot.paramMap.get('yyyy'));
+    // console.log('date from another route url: ' + this.fromUrlDate);
+    this.subscription = this.http.sharingData$.subscribe(sharingData => this.sharingData = sharingData);
+    this.http.getData();
+    // console.log('data from service: ' + this.sharingData);
     this.currentDate = new Date();
     this.currentDate.setHours(0, 0, 0, 0);
-    console.log(this.currentDate);
+    // console.log(this.currentDate);
     this.selectDate(this.currentDate);
 
     this.renderMonth(this.currentDate);
+  }
+
+  // observable + behaviorsubject
+  ngOnDestroy() {
+    this.subscription && this.subscription.unsubscribe();
   }
 
   nextMonth() {
@@ -46,7 +59,7 @@ export class CalendarComponent implements OnInit {
 
   selectDate(day: Date): void {
     this.selectedDate = new Date(day);
-    console.log(this.selectedDate);
+    // console.log(this.selectedDate);
   }
 
   renderMonth(day: Date): void {

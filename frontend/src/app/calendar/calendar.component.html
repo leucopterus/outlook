@@ -21,6 +21,7 @@
           [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate(), day]">{{ day | date:'dd'}}</li>
     </ul>  
   </div>
+  <h4>from service: {{ http.sharingDataValue | date: 'yyyy-MM-dd' || 'null'}}</h4>
   <div class="day-container">
     <router-outlet></router-outlet>
   </div>

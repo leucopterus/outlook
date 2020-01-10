@@ -1,17 +1,27 @@
-<div *ngIf="day">
-  <h3>
-    {{ day |  date:'yyyy-MM-dd' }}
-  </h3>
-  <div *ngFor="let event of eventList">
-    <div>
-      <p>Event Id: {{event?.id}}</p>
+<div class="jumbotron">
+  <div *ngIf="day">
+    <h3>
+      {{ day |  date:'yyyy-MM-dd' }}
+    </h3>
+    <div *ngFor="let event of eventList">
+      <!-- <p>Event Id: {{event?.id}}</p> -->
       <p>Event title: {{event?.title}}</p>
       <p>Event start: {{event?.start}}</p>
       <p>Event finish: {{event?.finish}}</p>
-      <p>Event organizer: {{event?.created_by}}</p>
+      <!-- <p>Event organizer: {{event?.created_by}}</p>
       <p>Event participants: {{event?.participants}}</p>
-      <p>Event regularity: {{event?.regularity}}</p>
+      <p>Event regularity: {{event?.regularity}}</p> -->
     </div>
     <hr>
+    <div *ngFor="let hour of hourList" class="p-3 mb-2 bg-info">{{ hour | date: 'HH:mm' }}</div>
   </div>
+</div>
+<div class="jumbotron">
+  <!-- <div *ngIf="events">
+    <div *ngFor="let key of Object.keys(events)">
+      <div class="p-3 mb-2 bg-warning">{{ key }}</div>
+      <div *ngFor="let hour of events[key]" class="p-3 mb-2 bg-info">[*]</div>
+    </div>
+  </div> -->
+  {{ events }}
 </div>

@@ -88,6 +88,10 @@ body {font-family: Verdana, sans-serif;}
   color: #777;
 }
 
+li {
+  padding: 5px;
+}
+
 /* Highlight the "selected" day */
 li.active {
   padding: 5px;
