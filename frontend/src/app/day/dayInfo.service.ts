@@ -38,13 +38,13 @@ export class DayInfoService {
   }
 
   getData(data?: Date): void {
-    if (data) {
-      this.sharingDataValue = new Date(data);
-    }
-    if (!this.sharingDataValue) {
-      this.sharingDataValue = new Date();
-    }
-    // console.warn('Data: ' + this.sharingDataValue);
+    // if (data) {
+    //   this.sharingDataValue = new Date(data);
+    // }
+    // if (!this.sharingDataValue) {
+    //   this.sharingDataValue = new Date();
+    // }
+    console.warn('Data: ' + this.sharingDataValue);
   }
 
 }

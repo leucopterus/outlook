@@ -1,3 +1,4 @@
+import { CalendarComponent } from './../calendar/calendar.component';
 import { Event } from '../event';
 import { DayInfoService } from './dayInfo.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,7 @@ class EventsWithTime {
   selector: 'app-day',
   templateUrl: './day.component.html',
   styleUrls: ['./day.component.css'],
-  providers: [DayInfoService],
+  providers: [],
 })
 export class DayComponent implements OnInit {
   eventList: Event[] = [];
@@ -19,7 +20,10 @@ export class DayComponent implements OnInit {
   day: Date;
   dayStart: Date;
 
-  events: Object = { 'a': [1, 2, 3] };
+  events = {};
+
+  test: number = 0;
+  name: string = 'Ed';
 
   public yearFromUrl: number;
   public monthFromUrl: number;
@@ -103,6 +107,18 @@ export class DayComponent implements OnInit {
       this.events[title] = timeList;
     }
     console.log('After creating event list with time: ' + Object.keys(this.events) + ' ' + Object.values(this.events));
+  }
+
+  increaseTest($event) {
+    this.test += 1;
+    console.log(this.test);
+    console.log($event);
+  }
+
+  decreaseTest($event) {
+    this.test -= 1;
+    console.log(this.test);
+    console.log($event);
   }
 
 }

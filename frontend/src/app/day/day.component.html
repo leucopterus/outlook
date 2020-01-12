@@ -25,3 +25,16 @@
   </div> -->
   {{ events }}
 </div>
+<div class="jumbotron">
+  {{ test }}
+  <button class="btn btn-primary" (click)="increaseTest($event)">Up</button>
+  <button class="btn btn-secondary" (click)="decreaseTest($event)">Down</button>
+  <h5 *ngIf="test >= 0;else unset">number is more or equal to zero</h5>
+  <ng-template #unset>
+   <h5>number is less than zero</h5> 
+  </ng-template>
+  <h4 *ngIf="[(test)] >= 0">number is more or equal to zero</h4>
+  <h4 *ngIf="[(test)] < 0">number is less than zero</h4>
+  <p>{{ name }}</p>
+  <input type="text" [(ngModel)]="name" />
+</div>
