@@ -36,15 +36,19 @@ export class DayComponent implements OnInit {
       this.day = new Date(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
       // console.log('Day: ' + this.day);
       // this.http.getData(this.day);
+
       this.http.setData(this.day);
       this.dayStart = new Date(this.day.toJSON());
       this.dayStart.setHours(23, 59, 59, 999);
       // console.log(this.dayStart, this.day);
+
       this.http.HttpOptions.params = this.http.HttpOptions.params.set('start__lte', `${this.dayStart.toJSON()}`);
       this.http.HttpOptions.params = this.http.HttpOptions.params.set('finish__gte', `${this.day.toJSON()}`);
+
       console.log('data sent to the server: ' + this.http.HttpOptions.params.get('start__lte'));
       console.log('data sent to the server: ' + this.http.HttpOptions.params.get('finish__gte'));
       console.log('------------');
+
       this.http.getDaySchedule().subscribe((data: Event[]) => {
         this.eventList = data;
         this.createTimeGrid(this.day);

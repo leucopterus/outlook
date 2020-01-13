@@ -30,11 +30,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.subscription = this.http.sharingData$.subscribe((sharingData) => {
       this.sharingData = sharingData;
+
       console.log('data from service: ' + this.sharingData);
 
       this.days.length = 0;
       this.selectDate(this.sharingData);
       this.renderMonth(this.sharingData);
+
+      console.warn('In subscription: ' + this.sharingData);
     });
   }
 
