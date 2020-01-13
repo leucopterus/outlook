@@ -17,11 +17,14 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <li *ngFor="let day of days" (click)="selectDate(day)" [ngClass]="{current: day.toString() === currentDate.toString()}" [routerLinkActive]="'active'"
-          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate(), day]">{{ day | date:'dd'}}</li>
+      <!-- [ngClass]="{current: day.toString() === currentDate.toString(), active: day.toString() === sharingData.toString()}" -->
+      <li *ngFor="let day of days" (click)="selectDate(day)"
+          [ngClass]="{current: day.toString() === currentDate.toString()}" 
+          [routerLinkActive]="'active'"
+          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</li>
     </ul>  
   </div>
-  <h4>from service: {{ sharingData | date: 'yyyy-MM-dd' || 'null'}}</h4>
+  <!-- <h4>from service: {{ sharingData | date: 'yyyy-MM-dd' || 'null'}}</h4> -->
   <div class="day-container">
     <router-outlet></router-outlet>
   </div>

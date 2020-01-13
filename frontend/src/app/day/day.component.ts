@@ -16,9 +16,11 @@ export class DayComponent implements OnInit {
   dayStart: Date;
 
   events = {};
+  eventsTitle: string[] = [];
+  eventsHours: Date[][] = [];
 
-  test: number = 0;
-  name: string = 'Ed';
+  // test: number = 0;
+  // name: string = 'Ed';
 
   public yearFromUrl: number;
   public monthFromUrl: number;
@@ -34,7 +36,7 @@ export class DayComponent implements OnInit {
       this.dayFromUrl = +params.get('dd');
       // console.log(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
       this.day = new Date(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
-      // console.log('Day: ' + this.day);
+      console.log('Day: ' + this.day);
       // this.http.getData(this.day);
 
       this.http.setData(this.day);
@@ -51,9 +53,12 @@ export class DayComponent implements OnInit {
 
       this.http.getDaySchedule().subscribe((data: Event[]) => {
         this.eventList = data;
+        this.eventsTitle.length = 0;
+
         this.createTimeGrid(this.day);
         console.log('Event List after creation: ' + Object.keys(this.eventList).length);
-        if (this.eventList) {
+        
+        if (Object.keys(this.eventList).length > 0) {
           this.createEventTimeGrid();
         }
       });
@@ -63,19 +68,18 @@ export class DayComponent implements OnInit {
   createTimeGrid(date: Date): void {
     this.hourList.length = 0;
 
+    const startDate = new Date(date);
     const finishDate = new Date(date);
     finishDate.setDate(date.getDate() + 1);
 
     // console.warn(`this date in function: ${date}`);
     // console.warn(`this finish date in function: ${finishDate}`);
 
-    while (date < finishDate) {
-      const transferDate = new Date(date);
+    while (startDate < finishDate) {
+      const transferDate = new Date(startDate);
       this.hourList.push(transferDate);
-      date.setHours(date.getHours() + 1);
+      startDate.setHours(startDate.getHours() + 1);
     }
-
-    date.setDate(date.getDate() - 1);
   }
 
   createEventTimeGrid(): void {
@@ -103,21 +107,23 @@ export class DayComponent implements OnInit {
         eventThisDateStart.setHours(eventThisDateStart.getHours() + 1);
       }
 
+      this.eventsTitle.push(title);
       this.events[title] = timeList;
     }
     console.log('After creating event list with time: ' + Object.keys(this.events) + ' ' + Object.values(this.events));
+    console.warn(this.events);
   }
 
-  increaseTest($event) {
-    this.test += 1;
-    console.log(this.test);
-    console.log($event);
-  }
+  // increaseTest($event) {
+  //   this.test += 1;
+  //   console.log(this.test);
+  //   console.log($event);
+  // }
 
-  decreaseTest($event) {
-    this.test -= 1;
-    console.log(this.test);
-    console.log($event);
-  }
+  // decreaseTest($event) {
+  //   this.test -= 1;
+  //   console.log(this.test);
+  //   console.log($event);
+  // }
 
 }

@@ -13,19 +13,25 @@
       <p>Event regularity: {{event?.regularity}}</p> -->
     </div>
     <hr>
-    <div *ngFor="let hour of hourList" class="p-3 mb-2 bg-info">{{ hour | date: 'HH:mm' }}</div>
+    <div *ngFor="let hour of hourList" class="p-3 mb-2 row bg-info">{{ hour | date: 'HH:mm' }}</div>
+    <hr>
+    <div *ngIf="eventsTitle.length > 0" >
+      <div *ngFor="let key of eventsTitle">
+        <div *ngFor="let hour2 of events[key]" class="p-3 mb-2 row bg-warning">
+          <div class="col text-left">{{ hour2 | date: 'HH:mm' }}</div>
+          <div class="col text-right">{{ key }}</div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <ng-container *ngFor="let hour of hourList">
+      <div *ngIf="eventsTitle.length > 0" >
+        <!-- two arrays? one for all time, second is like a map of time description - event name: 0:00 - null, 1:00 - event a, 2:00 - event a, 3:00 - event b -->
+      </div>
+    </ng-container>
   </div>
 </div>
-<div class="jumbotron">
-  <!-- <div *ngIf="events">
-    <div *ngFor="let key of Object.keys(events)">
-      <div class="p-3 mb-2 bg-warning">{{ key }}</div>
-      <div *ngFor="let hour of events[key]" class="p-3 mb-2 bg-info">[*]</div>
-    </div>
-  </div> -->
-  {{ events }}
-</div>
-<div class="jumbotron">
+<!-- <div class="jumbotron">
   {{ test }}
   <button class="btn btn-primary" (click)="increaseTest($event)">Up</button>
   <button class="btn btn-secondary" (click)="decreaseTest($event)">Down</button>
@@ -37,4 +43,4 @@
   <h4 *ngIf="[(test)] < 0">number is less than zero</h4>
   <p>{{ name }}</p>
   <input type="text" [(ngModel)]="name" />
-</div>
+</div> -->
