@@ -1,59 +1,43 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DayInfoService } from './../day/dayInfo.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
-  providers: [],
+  providers: [DayInfoService],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
 
   public currentDate: Date;
   public selectedDate: Date;
-  public fromUrlDate: Date;
 
   public sharingData: Date;
   public subscription: Subscription;
 
   public month: string;
   public year: number;
-  public day: number;
+
   public days: Date[] = [];
 
   constructor(private http: DayInfoService) {}
 
   ngOnInit() {
-    // console.log('date from another route url: ' + this.fromUrlDate);
-    this.subscription = this.http.sharingData$.subscribe(sharingData => this.sharingData = sharingData);
-    this.http.getData();
-    console.log('data from service: ' + this.sharingData);
     this.currentDate = new Date();
     this.currentDate.setHours(0, 0, 0, 0);
-    // console.log(this.currentDate);
 
-    if (!this.sharingData) {
-      this.selectDate(this.currentDate);
-      this.renderMonth(this.currentDate);
-    } else {
+    this.subscription = this.http.sharingData$.subscribe((sharingData) => {
+      this.sharingData = sharingData;
+      console.log('data from service: ' + this.sharingData);
+
+      this.days.length = 0;
       this.selectDate(this.sharingData);
       this.renderMonth(this.sharingData);
-      this.sharingData = null;
-      this.http.sharingDataValue = null;
-    }
+    });
   }
 
-  // ngOnChanges() {
-  //   this.subscription = this.http.sharingData$.subscribe(sharingData => this.sharingData = sharingData);
-  //   // this.http.getData();
-  //   console.log('data from service: ' + this.sharingData);
-  //   this.selectDate(this.sharingData);
-  //   this.renderMonth(this.sharingData);
-  // }
-
-  // observable + behaviorsubject
   ngOnDestroy() {
     this.subscription && this.subscription.unsubscribe();
   }

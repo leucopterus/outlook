@@ -1,12 +1,7 @@
-import { CalendarComponent } from './../calendar/calendar.component';
 import { Event } from '../event';
 import { DayInfoService } from './dayInfo.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-class EventsWithTime {
-  [title: string]: Date[];
-}
 
 @Component({
   selector: 'app-day',
@@ -67,8 +62,8 @@ export class DayComponent implements OnInit {
     const finishDate = new Date(date);
     finishDate.setDate(date.getDate() + 1);
 
-    console.warn(`this date in function: ${date}`);
-    console.warn(`this finish date in function: ${finishDate}`);
+    // console.warn(`this date in function: ${date}`);
+    // console.warn(`this finish date in function: ${finishDate}`);
 
     while (date < finishDate) {
       const transferDate = new Date(date);
