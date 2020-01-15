@@ -15,7 +15,7 @@ export class DayComponent implements OnInit {
   day: Date;
   dayStart: Date;
 
-  creationOfNewEvent: boolean = false;
+  creationOfNewEvent: boolean;
 
   events = {};
   eventsTitle: string[] = [];
@@ -39,7 +39,7 @@ export class DayComponent implements OnInit {
       this.dayFromUrl = +params.get('dd');
       // console.log(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
       this.day = new Date(`${this.yearFromUrl}-${this.monthFromUrl}-${this.dayFromUrl}`);
-      console.log('Day: ' + this.day);
+      // console.log('Day: ' + this.day);
       // this.http.getData(this.day);
 
       this.http.setData(this.day);
@@ -50,16 +50,16 @@ export class DayComponent implements OnInit {
       this.http.HttpOptions.params = this.http.HttpOptions.params.set('start__lte', `${this.dayStart.toJSON()}`);
       this.http.HttpOptions.params = this.http.HttpOptions.params.set('finish__gte', `${this.day.toJSON()}`);
 
-      console.log('data sent to the server: ' + this.http.HttpOptions.params.get('start__lte'));
-      console.log('data sent to the server: ' + this.http.HttpOptions.params.get('finish__gte'));
-      console.log('------------');
+      // console.log('data sent to the server: ' + this.http.HttpOptions.params.get('start__lte'));
+      // console.log('data sent to the server: ' + this.http.HttpOptions.params.get('finish__gte'));
+      // console.log('------------');
 
       this.http.getDaySchedule().subscribe((data: Event[]) => {
         this.eventList = data;
         this.eventsTitle.length = 0;
 
         this.createTimeGrid(this.day);
-        console.log('Event List after creation: ' + Object.keys(this.eventList).length);
+        // console.log('Event List after creation: ' + Object.keys(this.eventList).length);
 
         if (Object.keys(this.eventList).length > 0) {
           this.createEventTimeGrid();

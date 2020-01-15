@@ -20,6 +20,7 @@
   <div class="col-6">
     <div *ngIf="creationOfNewEvent;else route">
       <app-event></app-event>
+      <!-- <app-event [class.hidden]="creationOfNewEvent"></app-event> -->
     </div>
     <ng-template #route>
       <router-outlet></router-outlet>

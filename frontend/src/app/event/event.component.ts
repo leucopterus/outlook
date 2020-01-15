@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { DayInfoService } from './../day/dayInfo.service';
 import { Event } from 'src/app/event';
@@ -11,24 +11,52 @@ import { Event } from 'src/app/event';
 })
 export class EventComponent implements OnInit {
 
+  fullUrl: string;
+  backRefLink: string;
+
   event: Event = new Event();
 
-  constructor(private http: DayInfoService, private router: Router) { }
+  constructor(private http: DayInfoService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
+      this.fullUrl = JSON.stringify(this.router.url);
+      console.log(JSON.stringify(this.router.url));
+      // console.log('Id from URL: ' + this.eventIdFromUrl);
+      // console.log('event: ' + JSON.stringify(this.event));
+    });
   }
 
   updateEvent(): void {
     this.http.updateEvent(this.event).subscribe((response) => {
-      this.router.navigate(['/calendar']);
+      // this.router.navigate(['/calendar']);
+      this.defineBackRefLink();
+      this.router.navigate([this.backRefLink]);
     });
   }
 
   createEvent(): void {
     this.http.createEvent(this.event).subscribe((response) => {
-      this.router.navigate(['/calendar']);
+      // this.router.navigate(['/calendar']);
+      this.defineBackRefLink();
+      this.router.navigate([this.backRefLink]);
     });
+  }
+
+  returnToDaySchedule(): void {
+    this.defineBackRefLink();
+    this.router.navigate([this.backRefLink]);
+  }
+
+  defineBackRefLink(): void {
+    if (this.fullUrl.indexOf('event') === -1) {
+      this.backRefLink = JSON.parse(this.fullUrl);
+    } else {
+      this.backRefLink = JSON.parse(this.fullUrl).split('event')[0];
+    }
+
+    console.warn(this.backRefLink);
   }
 }
 
