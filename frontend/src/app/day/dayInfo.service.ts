@@ -14,10 +14,13 @@ export class DayInfoService {
   sharingData$: Observable<Date> = this.sharingData.asObservable();
   //
 
+  eventDetail: Event = new Event();
+  updateEventFlag: boolean = true;
+
   HttpOptions = {
     params: new HttpParams({}),
     headers: new HttpHeaders({
-      'Content-Type': 'applications/json',
+      'Content-Type': 'application/json',
       'Authorization': `Token ${localStorage.getItem('token')}`,
     }),
   };
@@ -39,4 +42,27 @@ export class DayInfoService {
     console.log('Set ' + this.sharingDataValue);
   }
 
+  updateEvent(event: Event): Observable<any> {
+    this.HttpOptions.params = new HttpParams({});
+
+    const body = {};
+
+    for (const key of Object.keys(this.eventDetail)) {
+      if (JSON.stringify(this.eventDetail[key]) !== JSON.stringify(event[key])) {
+        body[key] = event[key];
+      }
+    }
+
+    for (const key of Object.keys(body)) {
+      console.warn('Body to send: ' + key + ' => ' + body[key]);
+    }
+
+    return this.http.patch<Event>(this.dayEventListUrl + `${event.id}/`, body, this.HttpOptions);
+  }
+
+  createEvent(event: Event): Observable<any> {
+    this.HttpOptions.params = new HttpParams({});
+
+    return this.http.post<Event>(this.dayEventListUrl, event, this.HttpOptions);
+  }
 }

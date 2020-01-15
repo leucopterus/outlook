@@ -1,46 +1,28 @@
-<div class="jumbotron">
-  <div *ngIf="day">
-    <h3>
-      {{ day |  date:'yyyy-MM-dd' }}
-    </h3>
-    <div *ngFor="let event of eventList">
-      <!-- <p>Event Id: {{event?.id}}</p> -->
-      <p>Event title: {{event?.title}}</p>
-      <p>Event start: {{event?.start}}</p>
-      <p>Event finish: {{event?.finish}}</p>
-      <!-- <p>Event organizer: {{event?.created_by}}</p>
-      <p>Event participants: {{event?.participants}}</p>
-      <p>Event regularity: {{event?.regularity}}</p> -->
-    </div>
-    <hr>
-    <div *ngFor="let hour of hourList" class="p-3 mb-2 row bg-info">{{ hour | date: 'HH:mm' }}</div>
-    <hr>
-    <div *ngIf="eventsTitle.length > 0" >
-      <div *ngFor="let key of eventsTitle">
-        <div *ngFor="let hour2 of events[key]" class="p-3 mb-2 row bg-warning">
-          <div class="col text-left">{{ hour2 | date: 'HH:mm' }}</div>
-          <div class="col text-right">{{ key }}</div>
-        </div>
+<div class="row">
+  <div *ngIf="day" class="col-6">
+    <div class="row">
+      <div class="col-6">
+        <h4>{{ day |  date:'yyyy-MM-dd' }}</h4>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-success" (click)="createEvent()">create event</button>
       </div>
     </div>
-    <hr>
-    <ng-container *ngFor="let hour of hourList">
-      <div *ngIf="eventsTitle.length > 0" >
-        <!-- two arrays? one for all time, second is like a map of time description - event name: 0:00 - null, 1:00 - event a, 2:00 - event a, 3:00 - event b -->
-      </div>
-    </ng-container>
+    <div *ngFor="let hour of hourList" class="row">
+      <div class="col text-left bg-info">{{ hour | date: 'HH:mm' }}</div>
+      <div *ngIf="timeAndEventMap.get(hour);else withoutEvent" (click)="selectEvent(timeAndEventMap.get(hour))" class="col text-right bg-warning" 
+          [routerLink]="['./event', timeAndEventMap.get(hour).id ]">{{ timeAndEventMap.get(hour).title }}</div>
+      <ng-template #withoutEvent>
+        <div class="col text-right bg-info"></div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-6">
+    <div *ngIf="creationOfNewEvent;else route">
+      <app-event></app-event>
+    </div>
+    <ng-template #route>
+      <router-outlet></router-outlet>
+    </ng-template>
   </div>
 </div>
-<!-- <div class="jumbotron">
-  {{ test }}
-  <button class="btn btn-primary" (click)="increaseTest($event)">Up</button>
-  <button class="btn btn-secondary" (click)="decreaseTest($event)">Down</button>
-  <h5 *ngIf="test >= 0;else unset">number is more or equal to zero</h5>
-  <ng-template #unset>
-   <h5>number is less than zero</h5> 
-  </ng-template>
-  <h4 *ngIf="[(test)] >= 0">number is more or equal to zero</h4>
-  <h4 *ngIf="[(test)] < 0">number is less than zero</h4>
-  <p>{{ name }}</p>
-  <input type="text" [(ngModel)]="name" />
-</div> -->

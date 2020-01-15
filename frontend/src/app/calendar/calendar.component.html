@@ -1,5 +1,5 @@
-<div class="calendar-flex-container">
-  <div class="calendar-container">
+<div class="row">
+  <div class="col-4">
     <div class="month">
       <ul>
         <button class="prev" (click)="previousMonth()">&#10094;</button>
@@ -24,8 +24,11 @@
           [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</li>
     </ul>  
   </div>
-  <!-- <h4>from service: {{ sharingData | date: 'yyyy-MM-dd' || 'null'}}</h4> -->
-  <div class="day-container">
+  <div class="col-8">
     <router-outlet></router-outlet>
   </div>
 </div>
+<!-- <h4>from service: {{ sharingData | date: 'yyyy-MM-dd' || 'null'}}</h4> -->
+<!-- <div class="day-container">
+  
+</div> -->

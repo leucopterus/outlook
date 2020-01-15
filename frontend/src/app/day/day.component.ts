@@ -15,12 +15,15 @@ export class DayComponent implements OnInit {
   day: Date;
   dayStart: Date;
 
+  creationOfNewEvent: boolean = false;
+
   events = {};
   eventsTitle: string[] = [];
   eventsHours: Date[][] = [];
 
-  // test: number = 0;
-  // name: string = 'Ed';
+  // for list to list time and event name
+  // will use hourList as list timetable
+  timeAndEventMap = new Map();
 
   public yearFromUrl: number;
   public monthFromUrl: number;
@@ -57,7 +60,7 @@ export class DayComponent implements OnInit {
 
         this.createTimeGrid(this.day);
         console.log('Event List after creation: ' + Object.keys(this.eventList).length);
-        
+
         if (Object.keys(this.eventList).length > 0) {
           this.createEventTimeGrid();
         }
@@ -67,6 +70,7 @@ export class DayComponent implements OnInit {
 
   createTimeGrid(date: Date): void {
     this.hourList.length = 0;
+    this.timeAndEventMap.clear();
 
     const startDate = new Date(date);
     const finishDate = new Date(date);
@@ -78,6 +82,7 @@ export class DayComponent implements OnInit {
     while (startDate < finishDate) {
       const transferDate = new Date(startDate);
       this.hourList.push(transferDate);
+      this.timeAndEventMap.set(transferDate, null);
       startDate.setHours(startDate.getHours() + 1);
     }
   }
@@ -88,6 +93,8 @@ export class DayComponent implements OnInit {
     for (const event of this.eventList) {
       const title = event.title;
       const timeList: Date[] = [];
+
+      let keyOfTimeEventMap: Date;
 
       const eventStart = new Date(event.start);
       const eventFinish = new Date(event.finish);
@@ -104,26 +111,37 @@ export class DayComponent implements OnInit {
       while (eventThisDateStart < eventThisDateFinish) {
         const transferDate = new Date(eventThisDateStart);
         timeList.push(transferDate);
+        // update time list
+        // search for start event time
+        for (keyOfTimeEventMap of this.timeAndEventMap.keys()) {
+          if (keyOfTimeEventMap.toJSON() === transferDate.toJSON()) {
+            break;
+          }
+        }
+        //
+        this.timeAndEventMap.set(keyOfTimeEventMap, event);
+        //
         eventThisDateStart.setHours(eventThisDateStart.getHours() + 1);
       }
 
       this.eventsTitle.push(title);
       this.events[title] = timeList;
     }
-    console.log('After creating event list with time: ' + Object.keys(this.events) + ' ' + Object.values(this.events));
-    console.warn(this.events);
+
+    // console.log('After creating event list with time: ' + Object.keys(this.events) + ' ' + Object.values(this.events));
   }
 
-  // increaseTest($event) {
-  //   this.test += 1;
-  //   console.log(this.test);
-  //   console.log($event);
-  // }
+  selectEvent(event: Event): void {
+    this.creationOfNewEvent = false;
+    this.http.eventDetail = JSON.parse(JSON.stringify(event));
+    this.http.updateEventFlag = true;
+    // console.log('select event: ' + event);
+  }
 
-  // decreaseTest($event) {
-  //   this.test -= 1;
-  //   console.log(this.test);
-  //   console.log($event);
-  // }
+  createEvent(): void {
+    this.http.eventDetail = new Event();
+    this.creationOfNewEvent = !this.creationOfNewEvent;
+    this.http.updateEventFlag = false;
+  }
 
 }

@@ -1,3 +1,52 @@
-<p>
-  event works!
-</p>
+<div class="jumbotron">
+  <h5>Event "{{ event?.title }}" Info</h5>
+  <!-- <p>Event Id: {{event?.id}}</p>
+  <p>Event title: {{event?.title}}</p>
+  <p>Event start: {{event?.start}}</p>
+  <p>Event finish: {{event?.finish}}</p>
+  <p>Event organizer: {{event?.created_by}}</p>
+  <p>Event participants: {{event?.participants}}</p>
+  <p>Event regularity: {{event?.regularity}}</p> -->
+  <form (ngSubmit)="onSubmit()" #eventForm>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" id="title"
+             required
+             [(ngModel)]="event.title" name="title"
+             #title="ngModel" placeholder="Event Title">
+    </div>
+    <div class="form-group">
+      <label for="start">Begins at:</label>
+      <input type="string" class="form-control" id="start"
+             required
+             [(ngModel)]="event.start" name="start" placeholder="YYYY-MM-DDThh:mm:ssZ">
+    </div>
+    <div class="form-group">
+      <label for="finish">Finishes at:</label>
+      <input type="string" class="form-control" id="finish"
+             required
+             [(ngModel)]="event.finish" name="finish" placeholder="YYYY-MM-DDThh:mm:ssZ">
+    </div>
+    <div class="form-group">
+      <label for="regularity">Regularity:</label>
+      <input type="string" class="form-control" id="regularity"
+             required [disabled]="(http.updateEventFlag) ? true : false"
+             [(ngModel)]="event.regularity" name="regularity" placeholder="N">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.updateEventFlag;else createNewEvent">Update Event</button>
+    <ng-template #createNewEvent>
+      <button type="button" class="btn btn-success" (click)="createEvent()">Create Event</button>
+    </ng-template>
+  </form>
+</div>
+<!-- <div class="jumbotron">
+    {{ test }}
+    <button class="btn btn-primary" (click)="increaseTest($event)">Up</button>
+    <button class="btn btn-secondary" (click)="decreaseTest($event)">Down</button>
+    <h5 *ngIf="test >= 0;else unset">number is more or equal to zero</h5>
+    <ng-template #unset>
+     <h5>number is less than zero</h5> 
+    </ng-template>
+    <p>{{ name }}</p>
+    <input type="text" [(ngModel)]="name" />
+  </div> -->

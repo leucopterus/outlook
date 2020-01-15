@@ -23,9 +23,12 @@ const routes: Routes = [
   {path: 'calendar', redirectTo: `calendar/${(new Date()).getFullYear()}/${(new Date()).getMonth() + 1}/${(new Date()).getDate()}` },
   {path: 'calendar', component: CalendarComponent, children: [
     {path: ':yyyy/:mm/:dd', component: DayComponent},
+    {path: ':yyyy/:mm/:dd', component: DayComponent, children: [
+      {path: 'event/:id', component: EventComponent},
+    ]},
     // {path: '', component: CalendarComponent},
   ]},
-  {path: 'events', component: EventsComponent, children: [
+  {path: 'event', component: EventsComponent, children: [
     {path: ':id', component: EventComponent},
   ]},
   {path: '', component: WelcomeComponent},
