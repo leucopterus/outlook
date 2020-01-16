@@ -20,7 +20,7 @@ const routes: Routes = [
     {path: 'user', component: UserComponent},
     {path: '', component: UsersComponent},
   ]},
-  {path: 'calendar', redirectTo: `calendar/${(new Date()).getFullYear()}/${(new Date()).getMonth() + 1}/${(new Date()).getDate()}` },
+  // {path: 'calendar', redirectTo: `calendar/${(new Date()).getFullYear()}/${(new Date()).getMonth() + 1}/${(new Date()).getDate()}` },
   {path: 'calendar', component: CalendarComponent, children: [
     {path: ':yyyy/:mm/:dd', component: DayComponent, children: [
       {path: 'event/:id', component: EventComponent},

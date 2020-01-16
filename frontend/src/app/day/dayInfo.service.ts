@@ -29,7 +29,8 @@ export class DayInfoService {
   constructor(private http: HttpClient) { }
 
   getDaySchedule(): Observable<Event[]> {
-    return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
+    return this.http.get<Event[]>('assets/event.json');
+    // return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
   }
 
   // observable + behavioursubject

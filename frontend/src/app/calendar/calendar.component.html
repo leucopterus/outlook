@@ -1,28 +1,39 @@
 <div class="row">
   <div class="col-4">
-    <div class="month">
-      <ul>
-        <button class="prev" (click)="previousMonth()">&#10094;</button>
-        <button class="next" (click)="nextMonth()">&#10095;</button>
-        <li>{{ month }}<br><span style="font-size:18px">{{ year }}</span></li>
-      </ul>
+    <!-- <div class="container"> -->
+      <div class="row justify-content-center custom-bg">
+        <div class="col-4 calendar-buttons-container">
+          <button class="btn btn-secondary full-cell-button" (click)="previousMonth()">&#10094;</button>
+        </div>
+        <div class="col-4">
+          <div class="row">
+            <div class="col text-center">{{ month }}</div>
+          </div>
+          <div class="row">
+            <div class="col text-center">{{ year }}</div>
+          </div>
+        </div>
+        <div class="col-4 text-right calendar-buttons-container">
+          <button class="btn btn-secondary full-cell-button" (click)="nextMonth()">&#10095;</button>
+        </div>
+      </div>
+    <!-- </div> -->
+    <div class="row justify-content-center">
+      <div class="col weekday-color custom-padding">Mo</div>
+      <div class="col weekday-color custom-padding">Tu</div>
+      <div class="col weekday-color custom-padding">We</div>
+      <div class="col weekday-color custom-padding">Th</div>
+      <div class="col weekday-color custom-padding">Fr</div>
+      <div class="col weekday-color custom-padding">Sa</div>
+      <div class="col weekday-color custom-padding">Su</div>
     </div>
-    <ul class="weekdays">
-      <li>Mo</li>
-      <li>Tu</li>
-      <li>We</li>
-      <li>Th</li>
-      <li>Fr</li>
-      <li>Sa</li>
-      <li>Su</li>
-    </ul>
-    <ul class="days">
+    <div *ngFor="let item of list" class="row justify-content-center">
       <!-- [ngClass]="{current: day.toString() === currentDate.toString(), active: day.toString() === sharingData.toString()}" -->
-      <li *ngFor="let day of days" (click)="selectDate(day)"
+      <!-- <div class="col align-self-center custom-padding" *ngFor="let day of days" (click)="selectDate(day)"
           [ngClass]="{current: day.toString() === currentDate.toString()}" 
           [routerLinkActive]="'active'"
-          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</li>
-    </ul>  
+          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</div>
+    </div>   -->
   </div>
   <div class="col-8">
     <router-outlet></router-outlet>

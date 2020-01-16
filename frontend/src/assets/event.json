@@ -1,0 +1,13 @@
+[
+    {
+        "id": "c923ca8b-bc1a-433c-be09-6bd6848ac08b",
+        "title": "Event three",
+        "start": "2020-01-16T12:00:00Z",
+        "finish": "2020-01-16T18:00:00Z",
+        "created_by": "0186d79f-b995-46d2-8356-66bf6bec557c",
+        "participants": [
+            "0186d79f-b995-46d2-8356-66bf6bec557c"
+        ],
+        "regularity": "N"
+    }
+]
