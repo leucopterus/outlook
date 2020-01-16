@@ -15,8 +15,6 @@ export class DayComponent implements OnInit {
   day: Date;
   dayStart: Date;
 
-  creationOfNewEvent: boolean;
-
   events = {};
   eventsTitle: string[] = [];
   eventsHours: Date[][] = [];
@@ -132,16 +130,15 @@ export class DayComponent implements OnInit {
   }
 
   selectEvent(event: Event): void {
-    this.creationOfNewEvent = false;
+    this.http.eventStatus = 'update';
     this.http.eventDetail = JSON.parse(JSON.stringify(event));
-    this.http.updateEventFlag = true;
-    // console.log('select event: ' + event);
+    // console.log('this.http.eventStatus: ' + this.http.eventStatus);
   }
 
   createEvent(): void {
     this.http.eventDetail = new Event();
-    this.creationOfNewEvent = !this.creationOfNewEvent;
-    this.http.updateEventFlag = false;
+    this.http.eventStatus = 'create';
+    // console.log('this.http.eventStatus: ' + this.http.eventStatus);
   }
 
 }

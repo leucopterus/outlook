@@ -45,6 +45,7 @@ export class EventComponent implements OnInit {
   }
 
   returnToDaySchedule(): void {
+    this.http.eventStatus = '';
     this.defineBackRefLink();
     this.router.navigate([this.backRefLink]);
   }

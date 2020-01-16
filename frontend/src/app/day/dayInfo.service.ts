@@ -15,7 +15,8 @@ export class DayInfoService {
   //
 
   eventDetail: Event = new Event();
-  updateEventFlag: boolean = true;
+
+  eventStatus: string = '';
 
   HttpOptions = {
     params: new HttpParams({}),

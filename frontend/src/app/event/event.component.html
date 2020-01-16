@@ -30,10 +30,10 @@
     <div class="form-group">
       <label for="regularity">Regularity:</label>
       <input type="string" class="form-control" id="regularity"
-             required [disabled]="(http.updateEventFlag) ? true : false"
+             required [disabled]="(http.eventStatus === 'update') ? true : false"
              [(ngModel)]="event.regularity" name="regularity" placeholder="N">
     </div>
-    <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.updateEventFlag;else createNewEvent">Update Event</button>
+    <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.eventStatus==='update';else createNewEvent">Update Event</button>
     <ng-template #createNewEvent>
       <button type="button" class="btn btn-success" (click)="createEvent()">Create Event</button>
     </ng-template>
