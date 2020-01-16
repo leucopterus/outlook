@@ -22,7 +22,7 @@ export class EventComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
       this.fullUrl = JSON.stringify(this.router.url);
-      console.log(JSON.stringify(this.router.url));
+      console.log('URL from event: ' + JSON.stringify(this.router.url));
       // console.log('Id from URL: ' + this.eventIdFromUrl);
       // console.log('event: ' + JSON.stringify(this.event));
     });

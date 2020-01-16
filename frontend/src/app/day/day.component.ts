@@ -1,7 +1,7 @@
 import { Event } from '../event';
 import { DayInfoService } from './dayInfo.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-day',
@@ -27,7 +27,7 @@ export class DayComponent implements OnInit {
   public monthFromUrl: number;
   public dayFromUrl: number;
 
-  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute) {}
+  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -61,6 +61,16 @@ export class DayComponent implements OnInit {
 
         if (Object.keys(this.eventList).length > 0) {
           this.createEventTimeGrid();
+        }
+
+        // ------------------------------------
+        let url: string = this.router.url;
+
+        if (url.indexOf('event') !== -1) {
+          console.log('URL from day: ' + this.router.url);
+          url = url.split('event/')[1];
+          this.http.eventStatus = 'update';
+          this.router.navigate([this.router.url]);
         }
       });
     });
