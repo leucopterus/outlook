@@ -16,6 +16,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { DayComponent } from './day/day.component';
 import { EventsComponent } from './events/events.component';
 import { HeaderComponent } from './header/header.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 @NgModule({
    declarations: [
@@ -30,7 +31,8 @@ import { HeaderComponent } from './header/header.component';
       LogoutComponent,
       DayComponent,
       EventsComponent,
-      HeaderComponent
+      HeaderComponent,
+      SubscriptionComponent
    ],
    imports: [
       BrowserModule,

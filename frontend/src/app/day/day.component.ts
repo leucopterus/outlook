@@ -142,6 +142,7 @@ export class DayComponent implements OnInit {
   selectEvent(event: Event): void {
     this.http.eventStatus = 'update';
     this.http.eventDetail = JSON.parse(JSON.stringify(event));
+    this.http.sharedEventLink = this.http.baseSharedEventLink + event.id;
     // console.log('this.http.eventStatus: ' + this.http.eventStatus);
   }
 

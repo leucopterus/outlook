@@ -11,6 +11,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { DayComponent } from './day/day.component';
 import { EventComponent } from './event/event.component';
 import { EventsComponent } from './events/events.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: 'event', component: EventsComponent, children: [
     {path: ':id', component: EventComponent},
   ]},
+  {path: 'shared/events/:id', component: SubscriptionComponent},
   {path: '', component: WelcomeComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'},
 ];

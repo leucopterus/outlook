@@ -27,6 +27,7 @@ class Event(models.Model):
     participants = models.ManyToManyField(User, related_name='subscriptions')
     regularity = models.CharField(max_length=1, choices=EVENT_REPETITION_CHOICES, default=ORIGINAL)
     is_active = models.BooleanField(default=True)
+    is_shared = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

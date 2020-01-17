@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -6,6 +7,8 @@ import { Event } from 'src/app/event';
 @Injectable()
 export class DayInfoService {
   readonly dayEventListUrl = 'http://0.0.0.0:8000/api/events/';
+  readonly sharedEventUrl = 'http://0.0.0.0:8000/api/events/shared/';
+  readonly baseSharedEventLink = 'http://localhost:4200/shared/events/';
 
   // observable + behaviorsubject
   sharingDataValue: Date = new Date();
@@ -15,6 +18,7 @@ export class DayInfoService {
   //
 
   eventDetail: Event = new Event();
+  sharedEventLink: string;
 
   eventStatus: string = '';
 
@@ -26,7 +30,7 @@ export class DayInfoService {
     }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getDaySchedule(): Observable<Event[]> {
     return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
@@ -44,6 +48,7 @@ export class DayInfoService {
   }
 
   updateEvent(event: Event): Observable<any> {
+    console.log(event);
     this.HttpOptions.params = new HttpParams({});
 
     const body = {};
@@ -62,8 +67,31 @@ export class DayInfoService {
   }
 
   createEvent(event: Event): Observable<any> {
+    console.log(event);
     this.HttpOptions.params = new HttpParams({});
 
     return this.http.post<Event>(this.dayEventListUrl, event, this.HttpOptions);
+  }
+
+  getSharedEventInfoById(eventId: string): Observable<Event> {
+    this.HttpOptions.params = new HttpParams({});
+    return this.http.get<Event>(this.sharedEventUrl + `${eventId}`, this.HttpOptions);
+  }
+
+  joinEvent(eventId: string, userId: string) {
+    const body = {};
+
+    this.HttpOptions.params = new HttpParams({});
+
+    this.getSharedEventInfoById(eventId).subscribe((response: Event) => {
+
+      body['participants'] = response.participants;
+
+      console.warn('sending patch request with ' + JSON.stringify(body));
+
+      this.http.patch<Event>(this.sharedEventUrl + `${eventId}/`, body, this.HttpOptions).subscribe((response) => {
+        this.router.navigate(['']);
+      });
+    });
   }
 }

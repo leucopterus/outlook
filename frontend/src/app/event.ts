@@ -6,4 +6,5 @@ export class Event {
     created_by: string;
     participants: string[];
     regularity: string;
+    is_shared?: boolean;
 }

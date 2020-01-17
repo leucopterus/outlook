@@ -1,7 +1,8 @@
 from rest_framework import status
+from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters import rest_framework as filters
 
 from events.models import Event
@@ -23,7 +24,7 @@ class EventViewSet(ModelViewSet):
     lookup_field = 'id'
     permission_classes = [BasePermission]
     action_permissions = {
-        IsAuthenticated: ['create', 'retrieve', 'list', 'partial_update'],
+        IsAuthenticated: ['create', 'retrieve', 'list', 'update', 'partial_update', 'destroy'],
     }
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = CurrentDateEventFilter
@@ -51,4 +52,32 @@ class EventViewSet(ModelViewSet):
         # if request.user != Event.objects.get(id=kwargs.get(id)):
         #     Response(status=status.HTTP_401_UNAUTHORIZED)
         kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        instance.participants.remove(request.user)
+
+        if instance.created_by == request.user:
+            self.perform_destroy(instance)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SharedEventViewSet(UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
+    serializer_class = EventSerializer
+    lookup_field = 'id'
+    permission_classes = [BasePermission]
+    action_permissions = {
+        IsAuthenticated: ['retrieve', 'partial_update'],
+    }
+
+    def get_queryset(self):
+        return Event.objects.filter(is_shared=True)
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        print(request.data.get('participants'))
+        request.data.get('participants').append(str(request.user.id))
         return self.update(request, *args, **kwargs)

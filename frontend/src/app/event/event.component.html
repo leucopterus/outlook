@@ -33,21 +33,37 @@
              required [disabled]="(http.eventStatus === 'update') ? true : false"
              [(ngModel)]="event.regularity" name="regularity" placeholder="N">
     </div>
-    <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.eventStatus==='update';else createNewEvent">Update Event</button>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="shared"
+             required
+             [(ngModel)]="event.is_shared" name="shared">
+      <label class="form-check-label" for="shared">Share this event</label>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.eventStatus==='update';else createNewEvent">Update Event</button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-danger" (click)="leaveEvent()" *ngIf="http.eventStatus==='update'">Leave Event</button>
+      </div>
+    </div>
     <ng-template #createNewEvent>
-      <button type="button" class="btn btn-success" (click)="createEvent()">Create Event</button>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-success" (click)="createEvent()">Create Event</button>
+        </div>
+      </div>
     </ng-template>
-    <button type="button" class="btn btn-secondary" (click)="returnToDaySchedule()">Return</button>
   </form>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <textarea *ngIf="event.is_shared && event.id"readonly>{{http.sharedEventLink}}</textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-secondary" (click)="returnToDaySchedule()">Return</button>
+    </div>
+  </div>
 </div>
-<!-- <div class="jumbotron">
-    {{ test }}
-    <button class="btn btn-primary" (click)="increaseTest($event)">Up</button>
-    <button class="btn btn-secondary" (click)="decreaseTest($event)">Down</button>
-    <h5 *ngIf="test >= 0;else unset">number is more or equal to zero</h5>
-    <ng-template #unset>
-     <h5>number is less than zero</h5> 
-    </ng-template>
-    <p>{{ name }}</p>
-    <input type="text" [(ngModel)]="name" />
-  </div> -->
