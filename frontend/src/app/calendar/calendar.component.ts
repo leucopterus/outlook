@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DayInfoService } from './../day/dayInfo.service';
@@ -22,22 +23,29 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   public days: Date[] = [];
 
-  constructor(private http: DayInfoService) {}
+  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.currentDate = new Date();
-    this.currentDate.setHours(0, 0, 0, 0);
+    this.activatedRoute.paramMap.subscribe((params) => {
 
-    this.subscription = this.http.sharingData$.subscribe((sharingData) => {
-      this.sharingData = sharingData;
+      this.currentDate = new Date();
+      this.currentDate.setHours(0, 0, 0, 0);
 
-      // console.log('data from service: ' + this.sharingData);
+      if (!params.get('yyyy')) {
+        this.router.navigate([`calendar/${this.currentDate.getFullYear()}/${this.currentDate.getMonth() + 1}/${this.currentDate.getDate()}`]);
+      }
 
-      this.days.length = 0;
-      this.selectDate(this.sharingData);
-      this.renderMonth(this.sharingData);
+      this.subscription = this.http.sharingData$.subscribe((sharingData) => {
+        this.sharingData = sharingData;
 
-      // console.warn('In subscription: ' + this.sharingData);
+        // console.log('data from service: ' + this.sharingData);
+
+        this.days.length = 0;
+        this.selectDate(this.sharingData);
+        this.renderMonth(this.sharingData);
+
+        // console.warn('In subscription: ' + this.sharingData);
+      });
     });
   }
 

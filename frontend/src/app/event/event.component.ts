@@ -44,6 +44,13 @@ export class EventComponent implements OnInit {
     });
   }
 
+  leaveEvent(): void {
+    this.http.deleteEvent(this.event).subscribe((response) => {
+      this.defineBackRefLink();
+      this.router.navigate([this.backRefLink]);
+    });
+  }
+
   returnToDaySchedule(): void {
     this.http.eventStatus = '';
     this.defineBackRefLink();

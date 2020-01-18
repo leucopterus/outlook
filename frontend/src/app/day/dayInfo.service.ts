@@ -73,6 +73,14 @@ export class DayInfoService {
     return this.http.post<Event>(this.dayEventListUrl, event, this.HttpOptions);
   }
 
+  deleteEvent(event: Event): Observable<any> {
+    this.HttpOptions.params = new HttpParams({});
+
+    console.log('URL:' + this.dayEventListUrl);
+
+    return this.http.delete<Event>(this.dayEventListUrl + `${event.id}/`, this.HttpOptions);
+  }
+
   getSharedEventInfoById(eventId: string): Observable<Event> {
     this.HttpOptions.params = new HttpParams({});
     return this.http.get<Event>(this.sharedEventUrl + `${eventId}`, this.HttpOptions);
