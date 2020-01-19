@@ -1,6 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { DayInfoService } from './../day/dayInfo.service';
 import { Event } from 'src/app/event';
 
@@ -16,15 +18,18 @@ export class EventComponent implements OnInit {
 
   event: Event = new Event();
 
-  constructor(private http: DayInfoService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private http: DayInfoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
       this.fullUrl = JSON.stringify(this.router.url);
       console.log('URL from event: ' + JSON.stringify(this.router.url));
-      // console.log('Id from URL: ' + this.eventIdFromUrl);
-      // console.log('event: ' + JSON.stringify(this.event));
     });
   }
 
@@ -33,6 +38,12 @@ export class EventComponent implements OnInit {
       // this.router.navigate(['/calendar']);
       this.defineBackRefLink();
       this.router.navigate([this.backRefLink]);
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Hmm, something wrong with your request');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
     });
   }
 
@@ -41,6 +52,12 @@ export class EventComponent implements OnInit {
       // this.router.navigate(['/calendar']);
       this.defineBackRefLink();
       this.router.navigate([this.backRefLink]);
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Hmm, something wrong with your request');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
     });
   }
 
@@ -48,6 +65,12 @@ export class EventComponent implements OnInit {
     this.http.deleteEvent(this.event).subscribe((response) => {
       this.defineBackRefLink();
       this.router.navigate([this.backRefLink]);
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Hmm, something wrong with your request');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
     });
   }
 
@@ -67,20 +90,3 @@ export class EventComponent implements OnInit {
     console.warn(this.backRefLink);
   }
 }
-
- /* other staff
-// test: number = 0;
-// name: string = 'Ed';
-
-// increaseTest($event) {
-//   this.test += 1;
-//   console.log(this.test);
-//   console.log($event);
-// }
-
-// decreaseTest($event) {
-//   this.test -= 1;
-//   console.log(this.test);
-//   console.log($event);
-// }
- */

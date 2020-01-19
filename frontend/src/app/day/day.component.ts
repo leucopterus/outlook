@@ -1,7 +1,10 @@
-import { Event } from '../event';
-import { DayInfoService } from './dayInfo.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
+
+import { Event } from '../event';
+import { DayInfoService } from './dayInfo.service';
 
 @Component({
   selector: 'app-day',
@@ -27,7 +30,12 @@ export class DayComponent implements OnInit {
   public monthFromUrl: number;
   public dayFromUrl: number;
 
-  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(
+    private http: DayInfoService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -71,6 +79,12 @@ export class DayComponent implements OnInit {
           url = url.split('event/')[1];
           this.http.eventStatus = 'update';
           this.router.navigate([this.router.url]);
+        }
+      }, (error) => {
+        if ( +error.status >= 400 && +error.status < 500) {
+          this.toastr.warning('Hmm, something wrong with your request');
+        } else {
+          this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
         }
       });
     });

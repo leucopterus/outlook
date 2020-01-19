@@ -32,7 +32,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.currentDate.setHours(0, 0, 0, 0);
 
       if (!params.get('yyyy')) {
-        this.router.navigate([`calendar/${this.currentDate.getFullYear()}/${this.currentDate.getMonth() + 1}/${this.currentDate.getDate()}`]);
+        this.router.navigate(
+          [`calendar/${this.currentDate.getFullYear()}/${this.currentDate.getMonth() + 1}/${this.currentDate.getDate()}`]
+        );
       }
 
       this.subscription = this.http.sharingData$.subscribe((sharingData) => {
@@ -50,7 +52,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription && this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   nextMonth() {

@@ -17,7 +17,6 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <!-- [ngClass]="{current: day.toString() === currentDate.toString(), active: day.toString() === sharingData.toString()}" -->
       <li *ngFor="let day of days" (click)="selectDate(day)"
           [ngClass]="{current: day.toString() === currentDate.toString()}" 
           [routerLinkActive]="'active'"
@@ -28,7 +27,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-<!-- <h4>from service: {{ sharingData | date: 'yyyy-MM-dd' || 'null'}}</h4> -->
-<!-- <div class="day-container">
-  
-</div> -->
