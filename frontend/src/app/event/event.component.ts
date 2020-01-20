@@ -33,28 +33,34 @@ export class EventComponent implements OnInit {
   }
 
   updateEvent(): void {
-    this.http.updateEvent(this.event).subscribe((response: Event) => {
-      this.defineBackRefLink();
-      this.router.navigate([this.backRefLink]);
-    }, (error) => {
-      if ( +error.status >= 400 && +error.status < 500) {
-        this.toastr.warning('Please, fill out the event input fields');
-      } else {
-        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
-      }
-    });
+    if (this.eventFieldsCheck(this.event)) {
+      this.http.updateEvent(this.event).subscribe((response: Event) => {
+        this.defineBackRefLink();
+        this.router.navigate([this.backRefLink]);
+      }, (error) => {
+        if ( +error.status >= 400 && +error.status < 500) {
+          this.toastr.warning('Please, fill out the event input fields');
+        } else {
+          this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+        }
+      });
+    }
+    this.toastr.warning('Please, fill out the event input fields');
   }
 
   createEvent(): void {
-    this.http.createEvent(this.event).subscribe((response: Event) => {
-      this.returnToDaySchedule();
-    }, (error) => {
-      if ( +error.status >= 400 && +error.status < 500) {
-        this.toastr.warning('Please, fill out the event input fields');
-      } else {
-        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
-      }
-    });
+    if (this.eventFieldsCheck(this.event)) {
+      this.http.createEvent(this.event).subscribe((response: Event) => {
+        this.returnToDaySchedule();
+      }, (error) => {
+        if ( +error.status >= 400 && +error.status < 500) {
+          this.toastr.warning('Please, fill out the event input fields');
+        } else {
+          this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+        }
+      });
+    }
+    this.toastr.warning('Please, fill out the event input fields');
   }
 
   leaveEvent(): void {
@@ -74,6 +80,14 @@ export class EventComponent implements OnInit {
     this.http.eventStatus = '';
     this.defineBackRefLink();
     this.router.navigate([this.backRefLink]);
+  }
+
+  eventFieldsCheck(event: Event): boolean {
+    let answer: boolean = true;
+    if (!event.title || !event.start || !event.finish || !event.regularity) {
+      answer = false;
+    }
+    return answer;
   }
 
   defineBackRefLink(): void {
