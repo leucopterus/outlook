@@ -33,19 +33,16 @@ export class EventComponent implements OnInit {
   }
 
   updateEvent(): void {
-    if (this.eventFieldsCheck(this.event)) {
-      this.http.updateEvent(this.event).subscribe((response: Event) => {
-        this.defineBackRefLink();
-        this.router.navigate([this.backRefLink]);
-      }, (error) => {
-        if ( +error.status >= 400 && +error.status < 500) {
-          this.toastr.warning('Please, fill out the event input fields');
-        } else {
-          this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
-        }
-      });
-    }
-    this.toastr.warning('Please, fill out the event input fields');
+    this.http.updateEvent(this.event).subscribe((response: Event) => {
+      this.defineBackRefLink();
+      this.router.navigate([this.backRefLink]);
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Please, fill out the event input fields');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
+    });
   }
 
   createEvent(): void {

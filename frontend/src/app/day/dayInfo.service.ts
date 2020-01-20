@@ -64,13 +64,11 @@ export class DayInfoService {
 
   createEvent(event: Event): Observable<any> {
     this.HttpOptions.params = new HttpParams({});
-
     return this.http.post<Event>(this.dayEventListUrl, event, this.HttpOptions);
   }
 
   deleteEvent(event: Event): Observable<any> {
     this.HttpOptions.params = new HttpParams({});
-
     return this.http.delete<Event>(this.dayEventListUrl + `${event.id}/`, this.HttpOptions);
   }
 
