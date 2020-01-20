@@ -88,8 +88,6 @@ export class DayInfoService {
 
       body['participants'] = response.participants;
 
-      console.warn('sending patch request with ' + JSON.stringify(body));
-
       this.http.patch<Event>(this.sharedEventUrl + `${eventId}/`, body, this.HttpOptions).subscribe((response) => {
         this.router.navigate(['calendar']);
       });

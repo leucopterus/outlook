@@ -47,8 +47,7 @@ export class EventComponent implements OnInit {
 
   createEvent(): void {
     this.http.createEvent(this.event).subscribe((response: Event) => {
-      this.defineBackRefLink();
-      this.router.navigate([this.backRefLink]);
+      this.returnToDaySchedule();
     }, (error) => {
       if ( +error.status >= 400 && +error.status < 500) {
         this.toastr.warning('Please, fill out the event input fields');

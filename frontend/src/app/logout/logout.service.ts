@@ -19,7 +19,6 @@ export class LogoutService {
   logoutUser() {
     if (localStorage.getItem('token')) {
       this.http.post(this.logoutUrl, ' ', this.HttpOptions).subscribe((data: string) => {
-        console.log(data);
         this.router.navigate(['']);
         localStorage.removeItem('token');
       });
