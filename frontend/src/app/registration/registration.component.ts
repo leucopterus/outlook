@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 
 import { User } from './../user';
 import { RegistrationService } from './registration.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-registration',

@@ -1,12 +1,5 @@
 <div class="jumbotron">
   <h5>Event "{{ event?.title }}" Info</h5>
-  <!-- <p>Event Id: {{event?.id}}</p>
-  <p>Event title: {{event?.title}}</p>
-  <p>Event start: {{event?.start}}</p>
-  <p>Event finish: {{event?.finish}}</p>
-  <p>Event organizer: {{event?.created_by}}</p>
-  <p>Event participants: {{event?.participants}}</p>
-  <p>Event regularity: {{event?.regularity}}</p> -->
   <form (ngSubmit)="onSubmit()" #eventForm>
     <div class="form-group">
       <label for="title">Title:</label>
@@ -39,12 +32,12 @@
              [(ngModel)]="event.is_shared" name="shared">
       <label class="form-check-label" for="shared">Share this event</label>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="http.eventStatus==='update';else createNewEvent">
       <div class="col-6">
-        <button type="button" class="btn btn-primary" (click)="updateEvent()" *ngIf="http.eventStatus==='update';else createNewEvent">Update Event</button>
+        <button type="button" class="btn btn-primary" (click)="updateEvent()">Update Event</button>
       </div>
       <div class="col-6">
-        <button type="button" class="btn btn-danger" (click)="leaveEvent()" *ngIf="http.eventStatus==='update'">Leave Event</button>
+        <button type="button" class="btn btn-danger" (click)="leaveEvent()">Leave Event</button>
       </div>
     </div>
     <ng-template #createNewEvent>

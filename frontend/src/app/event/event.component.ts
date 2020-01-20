@@ -29,18 +29,16 @@ export class EventComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
       this.fullUrl = JSON.stringify(this.router.url);
-      console.log('URL from event: ' + JSON.stringify(this.router.url));
     });
   }
 
   updateEvent(): void {
-    this.http.updateEvent(this.event).subscribe((response) => {
-      // this.router.navigate(['/calendar']);
+    this.http.updateEvent(this.event).subscribe((response: Event) => {
       this.defineBackRefLink();
       this.router.navigate([this.backRefLink]);
     }, (error) => {
       if ( +error.status >= 400 && +error.status < 500) {
-        this.toastr.warning('Hmm, something wrong with your request');
+        this.toastr.warning('Please, fill out the event input fields');
       } else {
         this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
       }
@@ -48,13 +46,12 @@ export class EventComponent implements OnInit {
   }
 
   createEvent(): void {
-    this.http.createEvent(this.event).subscribe((response) => {
-      // this.router.navigate(['/calendar']);
+    this.http.createEvent(this.event).subscribe((response: Event) => {
       this.defineBackRefLink();
       this.router.navigate([this.backRefLink]);
     }, (error) => {
       if ( +error.status >= 400 && +error.status < 500) {
-        this.toastr.warning('Hmm, something wrong with your request');
+        this.toastr.warning('Please, fill out the event input fields');
       } else {
         this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
       }
@@ -84,9 +81,7 @@ export class EventComponent implements OnInit {
     if (this.fullUrl.indexOf('event') === -1) {
       this.backRefLink = JSON.parse(this.fullUrl);
     } else {
-      this.backRefLink = JSON.parse(this.fullUrl).split('event')[0];
+      this.backRefLink = JSON.parse(this.fullUrl).split('/event')[0];
     }
-
-    console.warn(this.backRefLink);
   }
 }

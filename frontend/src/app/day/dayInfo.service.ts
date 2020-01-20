@@ -32,7 +32,9 @@ export class DayInfoService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getDaySchedule(): Observable<Event[]> {
+  getDaySchedule(dayStart: Date, dayFinish: Date): Observable<Event[]> {
+    this.HttpOptions.params = this.HttpOptions.params.set('start__lte', `${dayStart.toJSON()}`);
+    this.HttpOptions.params = this.HttpOptions.params.set('finish__gte', `${dayFinish.toJSON()}`);
     return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
   }
 
@@ -44,11 +46,9 @@ export class DayInfoService {
       this.sharingDataValue = new Date();
     }
     this.sharingData.next(this.sharingDataValue);
-    console.log('Set ' + this.sharingDataValue);
   }
 
   updateEvent(event: Event): Observable<any> {
-    console.log(event);
     this.HttpOptions.params = new HttpParams({});
 
     const body = {};
@@ -59,15 +59,10 @@ export class DayInfoService {
       }
     }
 
-    for (const key of Object.keys(body)) {
-      console.warn('Body to send: ' + key + ' => ' + body[key]);
-    }
-
     return this.http.patch<Event>(this.dayEventListUrl + `${event.id}/`, body, this.HttpOptions);
   }
 
   createEvent(event: Event): Observable<any> {
-    console.log(event);
     this.HttpOptions.params = new HttpParams({});
 
     return this.http.post<Event>(this.dayEventListUrl, event, this.HttpOptions);
@@ -75,8 +70,6 @@ export class DayInfoService {
 
   deleteEvent(event: Event): Observable<any> {
     this.HttpOptions.params = new HttpParams({});
-
-    console.log('URL:' + this.dayEventListUrl);
 
     return this.http.delete<Event>(this.dayEventListUrl + `${event.id}/`, this.HttpOptions);
   }
@@ -98,7 +91,7 @@ export class DayInfoService {
       console.warn('sending patch request with ' + JSON.stringify(body));
 
       this.http.patch<Event>(this.sharedEventUrl + `${eventId}/`, body, this.HttpOptions).subscribe((response) => {
-        this.router.navigate(['']);
+        this.router.navigate(['calendar']);
       });
     });
   }

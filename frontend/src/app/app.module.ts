@@ -17,7 +17,6 @@ import { EventComponent } from './event/event.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LogoutComponent } from './logout/logout.component';
 import { DayComponent } from './day/day.component';
-import { EventsComponent } from './events/events.component';
 import { HeaderComponent } from './header/header.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 
@@ -33,7 +32,6 @@ import { SubscriptionComponent } from './subscription/subscription.component';
       WelcomeComponent,
       LogoutComponent,
       DayComponent,
-      EventsComponent,
       HeaderComponent,
       SubscriptionComponent
    ],
