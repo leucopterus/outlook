@@ -23,7 +23,9 @@ export class EventComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-  ) { }
+  ) {
+    this.router.onSameUrlNavigation = 'reload';
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {

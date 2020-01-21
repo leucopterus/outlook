@@ -23,18 +23,32 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   public days: Date[] = [];
 
-  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {
+    this.router.onSameUrlNavigation = 'reload';
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
 
+      console.warn('Url from calendar: ' + this.router.url);
+
       this.currentDate = new Date();
       this.currentDate.setHours(0, 0, 0, 0);
 
-      if (!params.get('yyyy')) {
+      const dataListFromUrl = this.router.url.split('/');
+
+      if (dataListFromUrl.length < 5) {
         this.router.navigate(
           [`calendar/${this.currentDate.getFullYear()}/${this.currentDate.getMonth() + 1}/${this.currentDate.getDate()}`]
         );
+      }
+
+      for (let i = dataListFromUrl.indexOf('calendar') + 1; i <= dataListFromUrl.indexOf('calendar') + 3; i++) {
+        if (!Number.isInteger(+dataListFromUrl[i])) {
+          this.router.navigate(
+            [`calendar/${this.currentDate.getFullYear()}/${this.currentDate.getMonth() + 1}/${this.currentDate.getDate()}`]
+          );
+        }
       }
 
       this.subscription = this.http.sharingData$.subscribe((sharingData) => {

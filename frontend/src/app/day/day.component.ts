@@ -35,10 +35,14 @@ export class DayComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-  ) {}
+  ) {
+    this.router.onSameUrlNavigation = 'reload';
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
+
+      console.warn('Url from day: ' + this.router.url);
 
       this.yearFromUrl = +params.get('yyyy');
       this.monthFromUrl = +params.get('mm');
