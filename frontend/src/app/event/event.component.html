@@ -1,3 +1,61 @@
-<p>
-  event works!
-</p>
+<div class="jumbotron">
+  <h5>Event "{{ event?.title }}" Info</h5>
+  <form (ngSubmit)="onSubmit()" #eventForm>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" id="title"
+             required
+             [(ngModel)]="event.title" name="title"
+             #title="ngModel" placeholder="Event Title">
+    </div>
+    <div class="form-group">
+      <label for="start">Begins at:</label>
+      <input type="string" class="form-control" id="start"
+             required
+             [(ngModel)]="event.start" name="start" placeholder="YYYY-MM-DDThh:mm:ssZ">
+    </div>
+    <div class="form-group">
+      <label for="finish">Finishes at:</label>
+      <input type="string" class="form-control" id="finish"
+             required
+             [(ngModel)]="event.finish" name="finish" placeholder="YYYY-MM-DDThh:mm:ssZ">
+    </div>
+    <div class="form-group">
+      <label for="regularity">Regularity:</label>
+      <input type="string" class="form-control" id="regularity"
+             required [disabled]="(http.eventStatus === 'update') ? true : false"
+             [(ngModel)]="event.regularity" name="regularity" placeholder="N">
+    </div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="shared"
+             [(ngModel)]="event.is_shared" name="shared">
+      <label class="form-check-label" for="shared">Share this event</label>
+    </div>
+    <div class="row" *ngIf="http.eventStatus==='update';else createNewEvent">
+      <div class="col-6">
+        <button type="button" class="btn btn-primary" (click)="updateEvent()">Update Event</button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-danger" (click)="leaveEvent()">Leave Event</button>
+      </div>
+    </div>
+    <ng-template #createNewEvent>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-success" (click)="createEvent()">Create Event</button>
+        </div>
+      </div>
+    </ng-template>
+  </form>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <textarea *ngIf="event.is_shared && event.id"readonly>{{http.sharedEventLink}}</textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-secondary" (click)="returnToDaySchedule()">Return</button>
+    </div>
+  </div>
+</div>

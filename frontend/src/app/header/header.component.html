@@ -1,0 +1,10 @@
+<nav *ngIf="!headerService.getToken()">
+  <a routerLink="">Main</a>
+  <a routerLink="/register">Register</a>
+  <a routerLink="/login">Log In</a>
+</nav>
+<nav *ngIf="headerService.getToken()">
+  <a routerLink="">Main</a>
+  <a routerLink="/logout">Log Out</a>
+  <a routerLink="/calendar/{{currentDate.getFullYear()}}/{{currentDate.getMonth()+1}}/{{currentDate.getDate()}}">Calendar</a>
+</nav>

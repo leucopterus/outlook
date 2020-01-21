@@ -1,4 +1,10 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+
+import { ToastrService } from 'ngx-toastr';
+
+import { DayInfoService } from './../day/dayInfo.service';
+import { Event } from 'src/app/event';
 
 @Component({
   selector: 'app-event',
@@ -7,9 +13,89 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventComponent implements OnInit {
 
-  constructor() { }
+  fullUrl: string;
+  backRefLink: string;
+
+  event: Event = new Event();
+
+  constructor(
+    private http: DayInfoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit() {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.event = JSON.parse(JSON.stringify(this.http.eventDetail));
+      this.fullUrl = JSON.stringify(this.router.url);
+    });
   }
 
+  updateEvent(): void {
+    this.http.updateEvent(this.event).subscribe((response: Event) => {
+      this.refreshDayInfo();
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Please, fill out the event input fields');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
+    });
+  }
+
+  createEvent(): void {
+    if (this.eventFieldsCheck(this.event)) {
+      this.http.createEvent(this.event).subscribe((response: Event) => {
+        this.refreshDayInfo();
+      }, (error) => {
+        if ( +error.status >= 400 && +error.status < 500) {
+          this.toastr.warning('Please, fill out the event input fields');
+        } else {
+          this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+        }
+      });
+    }
+    this.toastr.warning('Please, fill out the event input fields');
+  }
+
+  leaveEvent(): void {
+    this.http.deleteEvent(this.event).subscribe((response) => {
+      this.refreshDayInfo();
+    }, (error) => {
+      if ( +error.status >= 400 && +error.status < 500) {
+        this.toastr.warning('Hmm, something wrong with your request');
+      } else {
+        this.toastr.error('There is no response from the server, please, try to access to it a little bit later');
+      }
+    });
+  }
+
+  returnToDaySchedule(): void {
+    this.http.eventStatus = '';
+    this.defineBackRefLink();
+    this.router.navigate([this.backRefLink]);
+  }
+
+  refreshDayInfo() {
+    this.defineBackRefLink();
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([this.backRefLink]));
+  }
+
+  eventFieldsCheck(event: Event): boolean {
+    let answer: boolean = true;
+    if (!event.title || !event.start || !event.finish || !event.regularity) {
+      answer = false;
+    }
+    return answer;
+  }
+
+  defineBackRefLink(): void {
+    if (this.fullUrl.indexOf('event') === -1) {
+      this.backRefLink = JSON.parse(this.fullUrl);
+    } else {
+      this.backRefLink = JSON.parse(this.fullUrl).split('/event')[0];
+    }
+  }
 }

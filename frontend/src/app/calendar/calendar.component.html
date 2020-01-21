@@ -1,5 +1,5 @@
-<div class="calendar-flex-container">
-  <div class="calendar-container">
+<div class="row">
+  <div class="col-4">
     <div class="month">
       <ul>
         <button class="prev" (click)="previousMonth()">&#10094;</button>
@@ -17,11 +17,13 @@
       <li>Su</li>
     </ul>
     <ul class="days">
-      <li *ngFor="let day of days" (click)="selectDate(day)" [className]="(day === selectedDate) ? 'active': ''">{{ day | date:'dd'}}</li>
-      <!-- <li><span class="active">10</span></li> -->
+      <li *ngFor="let day of days" (click)="selectDate(day)"
+          [ngClass]="{current: day.toString() === currentDate.toString()}" 
+          [routerLinkActive]="'active'"
+          [routerLink]="['/calendar', day.getFullYear(), day.getMonth()+1, day.getDate()]">{{ day | date:'dd'}}</li>
     </ul>  
   </div>
-  <div class="day-container">
-    <app-day [day]="selectedDate"></app-day>
+  <div class="col-8">
+    <router-outlet></router-outlet>
   </div>
 </div>

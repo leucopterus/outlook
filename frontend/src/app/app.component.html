@@ -1,11 +1,4 @@
-<h1>{{title}}</h1>
-<nav>
-    <a routerLink="">Main</a>
-    <a routerLink="/register">Register</a>
-    <a routerLink="/login">Log In</a>
-    <a routerLink="/logout">Log Out</a>
-    <a routerLink="/users">User List</a>
-    <a routerLink="/calendar">Calendar</a>
-    <!-- <a routerLink="/users/userId">Home</a> -->
-</nav>
-<router-outlet></router-outlet>
+<app-header></app-header>
+<div class="custom-container">
+    <router-outlet></router-outlet>
+</div>

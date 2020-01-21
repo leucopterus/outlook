@@ -17,10 +17,13 @@ export class LogoutService {
               private router: Router) {}
 
   logoutUser() {
-    this.http.post(this.logoutUrl, ' ', this.HttpOptions).subscribe((data: string) => {
-      console.log(data);
+    if (localStorage.getItem('token')) {
+      this.http.post(this.logoutUrl, ' ', this.HttpOptions).subscribe((data: string) => {
+        this.router.navigate(['']);
+        localStorage.removeItem('token');
+      });
+    } else {
       this.router.navigate(['']);
-      localStorage.removeItem('token');
-    });
+    }
   }
 }

@@ -1,3 +1,31 @@
-<h3>
-  {{ day |  date:'yyyy-MM-dd' }}
-</h3>
+<div class="row">
+  <div *ngIf="day" class="col-6">
+    <div class="row">
+      <div class="col-6">
+        <h4>{{ day |  date:'yyyy-MM-dd' }}</h4>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-success" (click)="createEvent()">create event</button>
+      </div>
+    </div>
+    <div *ngFor="let hour of hourList" class="row">
+      <div class="col text-left bg-info">{{ hour | date: 'HH:mm' }}</div>
+      <div *ngIf="timeAndEventMap.get(hour);else withoutEvent" (click)="selectEvent(timeAndEventMap.get(hour))" class="col text-right bg-warning" 
+          [routerLink]="['./event', timeAndEventMap.get(hour).id ]">{{ timeAndEventMap.get(hour).title }}</div>
+      <ng-template #withoutEvent>
+        <div class="col text-right bg-info"></div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-6">
+    <div [ngSwitch]="http.eventStatus">
+      <div *ngSwitchCase="'create'">
+        <app-event></app-event>
+      </div>
+      <div *ngSwitchCase="'update'">
+        <router-outlet></router-outlet>
+      </div>
+      <div *ngSwitchDefault></div>
+    </div>
+  </div>
+</div>

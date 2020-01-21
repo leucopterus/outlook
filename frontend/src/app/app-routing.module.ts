@@ -5,24 +5,23 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LogoutComponent } from './logout/logout.component';
 import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { UsersComponent } from './users/users.component';
-import { UserComponent } from './user/user.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DayComponent } from './day/day.component';
 import { EventComponent } from './event/event.component';
-import { EventsComponent } from './events/events.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
-  {path: 'users', component: UsersComponent},
-  {path: 'users/user', component: UserComponent},
-  {path: 'calendar', component: CalendarComponent},
-  {path: 'calendar/day/:id', component: DayComponent},
-  {path: 'events/', component: EventsComponent},
-  {path: 'events/:id', component: EventComponent},
+  {path: 'calendar', component: CalendarComponent, children: [
+    {path: ':yyyy/:mm/:dd', component: DayComponent, children: [
+      {path: 'event/:id', component: EventComponent},
+    ]},
+  ]},
+  {path: 'shared/events/:id', component: SubscriptionComponent},
+  {path: '', component: WelcomeComponent},
+  {path: '**', redirectTo: '', pathMatch: 'full'},
 ];
 
 @NgModule({
