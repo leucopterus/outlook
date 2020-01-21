@@ -1,8 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DayInfoService } from './../day/dayInfo.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -10,13 +9,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./calendar.component.css'],
   providers: [DayInfoService],
 })
-export class CalendarComponent implements OnInit, OnDestroy {
+export class CalendarComponent implements OnInit {
 
   public currentDate: Date;
   public selectedDate: Date;
 
   public sharingData: Date;
-  public subscription: Subscription;
 
   public month: string;
   public year: number;
@@ -51,18 +49,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
       }
 
-      this.subscription = this.http.sharingData$.subscribe((sharingData) => {
-        this.sharingData = sharingData;
+      this.sharingData = new Date(this.http.sharingDataValue);
 
-        this.days.length = 0;
-        this.selectDate(this.sharingData);
-        this.renderMonth(this.sharingData);
-      });
+      this.days.length = 0;
+      this.selectDate(this.sharingData);
+      this.renderMonth(this.sharingData);
     });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   nextMonth() {

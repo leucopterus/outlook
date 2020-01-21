@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Event } from 'src/app/event';
@@ -10,12 +10,7 @@ export class DayInfoService {
   readonly sharedEventUrl = 'http://0.0.0.0:8000/api/events/shared/';
   readonly baseSharedEventLink = 'http://localhost:4200/shared/events/';
 
-  // observable + behaviorsubject
   sharingDataValue: Date = new Date();
-  private sharingData: BehaviorSubject<Date> = new BehaviorSubject<Date>(this.sharingDataValue);
-
-  sharingData$: Observable<Date> = this.sharingData.asObservable();
-  //
 
   eventDetail: Event = new Event();
   sharedEventLink: string;
@@ -38,14 +33,12 @@ export class DayInfoService {
     return this.http.get<Event[]>(this.dayEventListUrl, this.HttpOptions);
   }
 
-  // observable + behavioursubject
   setData(date?: Date): void {
     if (date) {
       this.sharingDataValue = new Date(date);
     } else {
       this.sharingDataValue = new Date();
     }
-    this.sharingData.next(this.sharingDataValue);
   }
 
   updateEvent(event: Event): Observable<any> {
