@@ -23,9 +23,7 @@ export class EventComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-  ) {
-    this.router.onSameUrlNavigation = 'reload';
-  }
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -36,8 +34,7 @@ export class EventComponent implements OnInit {
 
   updateEvent(): void {
     this.http.updateEvent(this.event).subscribe((response: Event) => {
-      this.defineBackRefLink();
-      this.router.navigate([this.backRefLink]);
+      this.refreshDayInfo();
     }, (error) => {
       if ( +error.status >= 400 && +error.status < 500) {
         this.toastr.warning('Please, fill out the event input fields');
@@ -50,7 +47,7 @@ export class EventComponent implements OnInit {
   createEvent(): void {
     if (this.eventFieldsCheck(this.event)) {
       this.http.createEvent(this.event).subscribe((response: Event) => {
-        this.returnToDaySchedule();
+        this.refreshDayInfo();
       }, (error) => {
         if ( +error.status >= 400 && +error.status < 500) {
           this.toastr.warning('Please, fill out the event input fields');
@@ -64,8 +61,7 @@ export class EventComponent implements OnInit {
 
   leaveEvent(): void {
     this.http.deleteEvent(this.event).subscribe((response) => {
-      this.defineBackRefLink();
-      this.router.navigate([this.backRefLink]);
+      this.refreshDayInfo();
     }, (error) => {
       if ( +error.status >= 400 && +error.status < 500) {
         this.toastr.warning('Hmm, something wrong with your request');
@@ -79,6 +75,12 @@ export class EventComponent implements OnInit {
     this.http.eventStatus = '';
     this.defineBackRefLink();
     this.router.navigate([this.backRefLink]);
+  }
+
+  refreshDayInfo() {
+    this.defineBackRefLink();
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([this.backRefLink]));
   }
 
   eventFieldsCheck(event: Event): boolean {

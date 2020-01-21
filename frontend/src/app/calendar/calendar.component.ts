@@ -21,14 +21,10 @@ export class CalendarComponent implements OnInit {
 
   public days: Date[] = [];
 
-  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) {
-    this.router.onSameUrlNavigation = 'reload';
-  }
+  constructor(private http: DayInfoService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
-
-      console.warn('Url from calendar: ' + this.router.url);
 
       this.currentDate = new Date();
       this.currentDate.setHours(0, 0, 0, 0);
